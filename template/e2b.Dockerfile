@@ -19,7 +19,8 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
   build-essential \
   util-linux \
   locales \
-  xauth
+  xauth \
+  gnome-screenshot
 
 ENV PIP_DEFAULT_TIMEOUT=100 \
   PIP_DISABLE_PIP_VERSION_CHECK=1 \
@@ -30,6 +31,8 @@ COPY ./requirements.txt requirements.txt
 RUN pip3 install --no-cache-dir -r requirements.txt
 
 COPY ./45-allow-colord.pkla /etc/polkit-1/localauthority/50-local.d/45-allow-colord.pkla
+
+COPY ./Xauthority /home/user/.Xauthority
 
 COPY ./start-up.sh /
 RUN chmod +x /start-up.sh
