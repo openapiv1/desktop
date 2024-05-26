@@ -36,3 +36,5 @@ COPY ./Xauthority /home/user/.Xauthority
 
 COPY ./start-up.sh /
 RUN chmod +x /start-up.sh
+
+RUN apt-get install xvfb xorg xserver-xorg scrot imagemagick -y

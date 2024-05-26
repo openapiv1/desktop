@@ -15,9 +15,9 @@ disp.start()
 
 pyautogui._pyautogui_x11._display = Xlib.display.Display(os.environ["DISPLAY"])
 
+pyautogui.write('Hello world!')
 pyautogui.move(400, 0)
 
-pyautogui.screenshot('screenshot.png')
 disp.stop()
 """
 
@@ -32,11 +32,11 @@ with Sandbox(template="desktop") as sandbox:
 
     # Get screenshot
     screenshot_path = "/home/user/screenshot.png"
-    # result = sandbox.process.start_and_wait(
-    #     f"xfce4-screenshooter -f -s {screenshot_path}",
-    #     env_vars={"DISPLAY": ":1"},
-    # )
-    # print(result.stdout)
+    result = sandbox.process.start_and_wait(
+        f"scrot && import -window root {screenshot_path}",
+        env_vars={"DISPLAY": ":1"},
+    )
+    print(result.stdout)
 
     ls = sandbox.filesystem.list("/home/user")
     print(ls)
