@@ -7,7 +7,7 @@ license = "Apache-2.0"
 readme = "README.md"
 homepage = "https://e2b.dev/"
 repository = "https://github.com/e2b-dev/desktop"
-packages = []
+package-mode = false
 
 [tool.poetry.dependencies]
 python = "^3.8"

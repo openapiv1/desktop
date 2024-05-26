@@ -1,29 +1,7 @@
 #!/bin/bash
 
-function start_jupyter_server() {
-	response=$(curl -s -o /dev/null -w "%{http_code}" "http://localhost:8888/api")
-	while [[ ${response} -ne 200 ]]; do
-		echo "Waiting for Jupyter Server to start..."
-		response=$(curl -s -o /dev/null -w "%{http_code}" "http://localhost:8888/api")
-	done
-	echo "Jupyter Server started"
+export DISPLAY=:1
 
-	response=$(curl -s -X POST "localhost:8888/api/kernels" -H "Content-Type: application/json" -d '{"path": "/home/user"}')
-	status=$(echo "${response}" | jq -r '.execution_state')
-	if [[ ${status} != "starting" ]]; then
-		echo "Error creating kernel: ${response} ${status}"
-		exit 1
-	fi
-	echo "Kernel created"
-
-	kernel=$(echo "${response}" | jq -r '.id')
-
-	sudo mkdir -p /root/.jupyter
-
-	sudo echo "${kernel}" | sudo tee /root/.jupyter/kernel_id >/dev/null
-	echo "Jupyter Server started"
-}
-
-echo "Starting Jupyter Server..."
-start_jupyter_server &
-jupyter server --IdentityProvider.token=""
+Xvfb :1 -ac -screen 0 1024x768x16 &
+sleep 1
+DISPLAY=:1 /usr/bin/xfce4-session
