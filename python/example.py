@@ -38,9 +38,6 @@ with Sandbox(template="desktop") as sandbox:
     )
     print(result.stdout)
 
-    ls = sandbox.filesystem.list("/home/user")
-    print(ls)
-
     file = sandbox.download_file(screenshot_path)
     with open("screenshot.png", "wb") as f:
         f.write(file)
