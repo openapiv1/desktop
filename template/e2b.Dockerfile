@@ -20,7 +20,9 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
   util-linux \
   locales \
   xauth \
-  gnome-screenshot
+  gnome-screenshot \
+  xserver-xorg \
+  xorg
 
 ENV PIP_DEFAULT_TIMEOUT=100 \
   PIP_DISABLE_PIP_VERSION_CHECK=1 \
@@ -36,5 +38,3 @@ COPY ./Xauthority /home/user/.Xauthority
 
 COPY ./start-up.sh /
 RUN chmod +x /start-up.sh
-
-RUN apt-get install xvfb xorg xserver-xorg scrot imagemagick ffmpeg -y
