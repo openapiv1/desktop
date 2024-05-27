@@ -17,6 +17,7 @@ Modify the `python/example.py` file to do what you want — for example, to move
 ```python
 pyautogui.moveTo(100, 150)
 ```
+> Running `desktop.pyautogui(<code>)` multiple times is fine.
 
 4. Run the script
 
