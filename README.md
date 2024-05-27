@@ -30,4 +30,5 @@ poetry run python example.py
 After the script has run, you can inspect the screenshot by checking `python/screenshot.png`.
 
 6. (Optional) Modify the template
+
 You can modify the template by editing the `template/start-up.sh`, `template/e2b.Dockerfile` files and then creating a custom template. You will need to change the used template in when creating the sandbox in `python/example.py`.
