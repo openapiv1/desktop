@@ -1,6 +1,6 @@
 # E2B Desktop Environment
 
-## How to setup and modify
+## How to use
 
 1. Install dependencies
 
@@ -12,12 +12,15 @@ cd python && poetry install
 
 3. (Optional) Modify the script
 
-Modify the `python/example.py` file to do what you want — for example, to move the mouse to the coordinates (100, 150), you can add the following line to the `desktop.pyautogui(<code>)` call:
+Modify the [`python/example.py`](python/example.py) file to do what you want — for example, to move the mouse to the coordinates (100, 150), you can add the following line to the `desktop.pyautogui(<code>)` call:
 
 ```python
 pyautogui.moveTo(100, 150)
 ```
+
 > Running `desktop.pyautogui(<code>)` multiple times is fine.
+
+> You can use all the methods from E2B SDK to interact with the desktop too.
 
 4. Run the script
 
@@ -25,10 +28,12 @@ pyautogui.moveTo(100, 150)
 poetry run python example.py
 ```
 
-5. Inspect the screenshot
+5. Inspect the screenshots
 
-After the script has run, you can inspect the screenshot by checking `python/screenshot.png`.
+After the script has run, you can inspect the screenshots by checking them in the `python/` directory, where they were saved.
 
 6. (Optional) Modify the template
 
-You can modify the template by editing the `template/start-up.sh`, `template/e2b.Dockerfile` files and then creating a custom template. You will need to change the used template in when creating the sandbox in `python/example.py`.
+If you want to preinstall dependencies you can modify the desktop template by editing the `template/*` files and then creating a custom template.
+
+You will need to change the used template when creating the `Desktop`'s `template` argument in `python/example.py`.

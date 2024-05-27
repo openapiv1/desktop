@@ -14,7 +14,13 @@ with Desktop() as desktop:
     # Create file and open text editor
     file = "/home/user/test.txt"
     desktop.filesystem.write(file, "world!")
-    desktop.start_command(f"mousepad {file}")
+    desktop.process.start(
+        f"mousepad {file}",
+        env_vars={"DISPLAY": desktop.DISPLAY},
+        on_stderr=lambda stderr: print(stderr),
+        on_stdout=lambda stdout: print(stdout),
+        cwd="/home/user",
+    )
     time.sleep(2)  # The mousepad command does not exit until you close the window
     desktop.screenshot("screenshot-2.png")
 

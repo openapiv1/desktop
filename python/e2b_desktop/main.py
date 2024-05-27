@@ -53,16 +53,6 @@ class Desktop(Sandbox):
         with open(name, "wb") as f:
             f.write(file)
 
-    def start_command(self, command: str):
-        logger.info(f"Running command: {command}")
-        self.process.start(
-            command,
-            env_vars={"DISPLAY": self.DISPLAY},
-            on_stderr=lambda stderr: logger.debug(stderr),
-            on_stdout=lambda stdout: logger.debug(stdout),
-            cwd="/home/user",
-        )
-
     @staticmethod
     def _wrap_pyautogui_code(code: str):
         return f"""
