@@ -37,7 +37,7 @@ class Desktop(Sandbox):
         )
 
     def screenshot(self, name: str):
-        screenshot_path = "/home/user/screenshot.png"
+        screenshot_path = f"/home/user/screenshot-{uuid.uuid4()}.png"
 
         logger.info("Capturing screenshot")
         self.process.start_and_wait(
@@ -52,6 +52,16 @@ class Desktop(Sandbox):
         file = self.download_file(screenshot_path)
         with open(name, "wb") as f:
             f.write(file)
+
+    def start_command(self, command: str):
+        logger.info(f"Running command: {command}")
+        self.process.start(
+            command,
+            env_vars={"DISPLAY": self.DISPLAY},
+            on_stderr=lambda stderr: logger.debug(stderr),
+            on_stdout=lambda stdout: logger.debug(stdout),
+            cwd="/home/user",
+        )
 
     @staticmethod
     def _wrap_pyautogui_code(code: str):
