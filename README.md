@@ -1,14 +1,16 @@
 # E2B Desktop Environment
-This repo shows you how to run [E2B's sandboxes](https://e2b.dev/docs/sandbox/overview) with graphical desktop-like environment. The desktop-like environment allows you start applications like file explorers, browsers, terminals, notes, etc.
+
+This repo shows how to run [E2B's sandboxes](https://e2b.dev/docs/sandbox/overview) with a graphical desktop-like environment. The desktop-like environment allows you to start applications like file explorers, browsers, terminals, notes, etc.
 
 You can use PyAutoGUI to control the environment programmatically.
 
-The desktop-like environment is based on Linux and [Xfce](https://www.xfce.org/) at the moment. We chose Xfce because it's the fastest one and with the lowest requirements out of the popular Linux desktop environments. Let us know if you need something else and Xfce doesn't work for you.
+The desktop-like environment is based on Linux and [Xfce](https://www.xfce.org/) at the moment. We chose Xfce because it's a fast and lightweight environment that's also widely popular. Let us know if you need something else or if Xfce doesn't work for you.
 
 ## Example
+
 The [example script](python/example.py) in this repo does the following and takes a screenshot after each action:
 
-**1. Start the sandbox with GUI**
+**1. Start the sandbox with a desktop environment**
 
 Spawn a new sandbox and take a screenshot.
 
@@ -21,7 +23,7 @@ Spawn a new sandbox and take a screenshot.
 
 **2. Open the text editor**
 
-Create a new file, write to the file, and open the file using Xfce's text editor called [mousepad](https://docs.xfce.org/apps/mousepad/start).
+Create a new file, write to the file, and open the file using Xfce's text editor called [Mousepad](https://docs.xfce.org/apps/mousepad/start).
 
 [Related code](https://github.com/e2b-dev/desktop/blob/main/python/example.py#L14-L33)
 
@@ -39,8 +41,8 @@ Use PyAutoGUI to write new text in the text editor.
 
 ## Caveats
 
-#### Use `desktop.screenshto()` instead of `pyautogui.screenshot()`
-The official PythonAutoGUI's screenshot method doesn't capture the mouse pointer. If you want to take a screenshot with the mouse pointer, use our own implementation.
+#### Use `desktop.screenshtot()` instead of `pyautogui.screenshot()`
+The official PythonAutoGUI's screenshot method doesn't capture the mouse pointer. If you want to take a screenshot with the mouse pointer, use our implementation.
 ```py
 from e2b_desktop import Desktop
 desktop_sandbox = Desktop()
@@ -57,6 +59,8 @@ cd python && poetry install
 ```
 
 **2. Add your E2B API key to the `python/.env` file**
+
+Visit [E2B's docs](https://e2b.dev/docs/getting-started/api-key) to get your API key.
 
 **3. (Optional) Modify the script**
 
@@ -78,7 +82,7 @@ poetry run python example.py
 
 **5. Inspect the screenshots**
 
-After the script finished, inspect the screenshots by checking them in the `python/` directory.
+After the script is finished, inspect the screenshots by checking them in the `python/` directory.
 
 **6. (Optional) Modify the template**
 

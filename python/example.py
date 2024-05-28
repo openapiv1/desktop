@@ -32,7 +32,7 @@ with Desktop() as desktop: # Using the `with` clause, the sandbox automatically 
     
     desktop.screenshot("screenshot-2.png")
 
-    # Write "Hello, world!" in the text editor
+    # Write "Hello, " in the text editor
     desktop.pyautogui(
         """
 pyautogui.write("Hello, ")
