@@ -5,7 +5,7 @@ The desktop-like environment allows you to start applications like file explorer
 
 You can use PyAutoGUI to control the environment programmatically.
 
-The desktop-like environment is based on Linux and [Xfce](https://www.xfce.org/) at the moment. We chose Xfce because it's a fast and lightweight environment that's also widely popular. Let us know if you need something else or if Xfce doesn't work for you.
+The desktop-like environment is based on Linux and [Xfce](https://www.xfce.org/) at the moment. We chose Xfce because it's a fast and lightweight environment that's also popular and actively supported. Let us know if you need something else or if Xfce doesn't work for you.
 
 ## Example
 
