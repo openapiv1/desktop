@@ -56,7 +56,8 @@ desktop_sandbox.close()
 cd python && poetry install
 ```
 
-**2. Add your E2B API key to the `python/.env` file**
+**2. Add your `E2B_API_KEY=` to the `python/.env` file**
+Get your E2B API key [here](https://e2b.dev/docs/getting-started/api-key).
 
 **3. (Optional) Modify the script**
 
