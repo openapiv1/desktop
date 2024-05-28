@@ -23,7 +23,7 @@ Spawn a new sandbox and take a screenshot.
 
 Create a new file, write to the file, and open the file using Xfce's text editor called [mousepad](https://docs.xfce.org/apps/mousepad/start).
 
-[Related code](https://github.com/e2b-dev/desktop/blob/main/python/example.py#L15-L25)
+[Related code](https://github.com/e2b-dev/desktop/blob/main/python/example.py#L14-L33)
 
 ![Step 2](python/screenshot-2.png)
 
@@ -33,7 +33,7 @@ Create a new file, write to the file, and open the file using Xfce's text editor
 
 Use PyAutoGUI to write new text in the text editor.
 
-[Related code](https://github.com/e2b-dev/desktop/blob/main/python/example.py#L27-L33)
+[Related code](https://github.com/e2b-dev/desktop/blob/main/python/example.py#L35-L41)
 
 ![Step 3](python/screenshot-3.png)
 
