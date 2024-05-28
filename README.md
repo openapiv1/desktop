@@ -41,7 +41,7 @@ Use PyAutoGUI to write new text in the text editor.
 
 ## Caveats
 
-#### Use `desktop.screenshtot()` instead of `pyautogui.screenshot()`
+#### Use `desktop_sandbox.screenshtot()` instead of `pyautogui.screenshot()`
 The official PythonAutoGUI's screenshot method doesn't capture the mouse pointer. If you want to take a screenshot with the mouse pointer, use our implementation.
 ```py
 from e2b_desktop import Desktop
