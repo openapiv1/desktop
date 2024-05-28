@@ -1,5 +1,5 @@
 # E2B Desktop Environment
-This repo shows you how to run [E2B's sandboxes](https://e2b.dev/docs/sandbox/overview) with graphical desktop-like environment. This allows you start applications like file explorers, browsers, terminals, notes, etc.
+This repo shows you how to run [E2B's sandboxes](https://e2b.dev/docs/sandbox/overview) with graphical desktop-like environment. The desktop-like environment allows you start applications like file explorers, browsers, terminals, notes, etc.
 
 You can use PyAutoGUI to control the environment programmatically.
 
