@@ -59,7 +59,7 @@ Use PyAutoGUI to write new text in the text editor.
 
 ```python
 with Desktop(timeout=60) as desktop:
-  pyaytogui_code = """
+  pyautogui_code = """
     pyautogui.write("Hello, ")
   """
   desktop.pyautogui(pyaytogui_code)
