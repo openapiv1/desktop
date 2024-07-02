@@ -6,7 +6,9 @@ from e2b_desktop import Desktop
 
 load_dotenv()
 
-logging.basicConfig(level=logging.DEBUG)
+# Comment this out to disable all logs in terminal
+# Or if you want more detailed logs, you can pass `logging.DEBUG`
+logging.basicConfig(level=logging.INFO)
 
 start_time = time.time()
 desktop = Desktop(
@@ -20,6 +22,7 @@ print(f"Desktop creation took {end_time - start_time} seconds")
 # === TAKING SCREENSHOT ===
 # This will take a screenshot of the desktop sandbox and save it to the current directory as `screenshot-1.png`.
 desktop.screenshot("screenshot-1.png")
+# ======================
 
 # === OPENING FILE ===
 # Create file inside the sandbox and open it in a text editor
@@ -38,41 +41,25 @@ desktop.commands.run(
 time.sleep(2)
 # Take a screenshot of the desktop with the open `mousepad` window.
 desktop.screenshot("screenshot-2.png")
+# ======================
 
+
+# === USING PYAUTOGUI ===
+# Write "Hello, " in the text editor
+desktop.pyautogui("""
+pyautogui.write("Hello, ")
+""")
+# Take a screenshot of the desktop with the text editor and "Hello, world" written.
+desktop.screenshot("screenshot-3.png")
+# ======================
 
 start_time = time.time()
 desktop.kill()
 end_time = time.time()
 print(f"desktop.kill() took {end_time - start_time} seconds")
 
-# with Desktop() as desktop: # Using the `with` clause, the sandbox automatically calls `close()` on itself once we run all the code inside the clause.
-#     desktop.screenshot("screenshot-1.png")
 
-#     # Create file and open text editor
-#     file = "/home/user/test.txt"
-#     desktop.filesystem.write(file, "world!")
-
-#     # Normally, we would use `desktop.process.start_and_wait()` to run a new process
-#     # and wait until it finishes.
-#     # However, the mousepad command does not exit until you close the window so we
-#     # we need to just start the process and run it in the background so it doesn't
-#     # block our code.
-#     desktop.process.start(
-#         f"mousepad {file}",
-#         env_vars={"DISPLAY": desktop.DISPLAY},
-#         on_stderr=lambda stderr: print(stderr),
-#         on_stdout=lambda stdout: print(stdout),
-#         cwd="/home/user",
-#     )
-#     time.sleep(2)
-#     #####
-
-#     desktop.screenshot("screenshot-2.png")
-
-#     # Write "Hello, " in the text editor
-#     desktop.pyautogui(
-#         """
-# pyautogui.write("Hello, ")
-# """
-#     )
-#     desktop.screenshot("screenshot-3.png")
+# You can use the `with` clause to automatically kill the sandbox when you're done.
+with Desktop(timeout=60) as desktop:
+    desktop.screenshot("screenshot-4.png")
+    # ...

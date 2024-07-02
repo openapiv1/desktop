@@ -1,6 +1,6 @@
 # E2B Desktop Environment
 
-This repo shows how to run [E2B's sandboxes](https://e2b.dev/docs/sandbox/overview) with a graphical desktop-like environment. We built this using our [custom sandboxes](https://e2b.dev/docs/sandbox/templates/overview) feature (all the files and code used for this custom sandbox are in the [`template/`](https://github.com/e2b-dev/desktop/tree/main/template) folder. 
+This repo shows how to run [E2B's sandboxes](https://e2b.dev/docs/sandbox/overview) with a graphical desktop-like environment. We built this using our [custom sandboxes](https://e2b.dev/docs/sandbox/templates/overview) feature (all the files and code used for this custom sandbox are in the [`template/`](https://github.com/e2b-dev/desktop/tree/main/template) folder.
 The desktop-like environment allows you to start applications like file explorers, browsers, terminals, notes, etc.
 
 You can use PyAutoGUI to control the environment programmatically.
@@ -15,7 +15,10 @@ The [example script](python/example.py) in this repo does the following and take
 
 Spawn a new sandbox and take a screenshot.
 
-[Related code](https://github.com/e2b-dev/desktop/blob/main/python/example.py#L11-L12)
+```python
+with Desktop(timeout=60) as desktop:
+    desktop.screenshot("screenshot.png")
+```
 
 
 ![Step 1](python/screenshot-1.png)
@@ -26,7 +29,25 @@ Spawn a new sandbox and take a screenshot.
 
 Create a new file, write to the file, and open the file using Xfce's text editor called [Mousepad](https://docs.xfce.org/apps/mousepad/start).
 
-[Related code](https://github.com/e2b-dev/desktop/blob/main/python/example.py#L14-L33)
+```python
+with Desktop(timeout=60) as desktop:
+  # Create file inside the sandbox and open it in a text editor
+  text_file_path = "/home/user/test.txt"
+  # `data` can be a string or bytes
+  desktop.files.write(text_file_path, "Hello, world!")
+  # Open the text file in `mousepad` program.
+  # We need to run this command in background because `mousepad` will keep running until you close the window.
+  # Our code would get stuck here.
+  desktop.commands.run(
+      f"mousepad {text_file_path}",
+      background=True,
+      envs={"DISPLAY": desktop.DISPLAY},
+  )
+  # Wait a bit to make sure it's really open.
+  time.sleep(2)
+  # Take a screenshot of the desktop with the open `mousepad` window.
+  desktop.screenshot("screenshot-2.png")
+```
 
 ![Step 2](python/screenshot-2.png)
 
@@ -36,7 +57,13 @@ Create a new file, write to the file, and open the file using Xfce's text editor
 
 Use PyAutoGUI to write new text in the text editor.
 
-[Related code](https://github.com/e2b-dev/desktop/blob/main/python/example.py#L35-L41)
+```python
+with Desktop(timeout=60) as desktop:
+  pyaytogui_code = """
+    pyautogui.write("Hello, ")
+  """
+  desktop.pyautogui(pyaytogui_code)
+```
 
 ![Step 3](python/screenshot-3.png)
 
@@ -46,9 +73,8 @@ Use PyAutoGUI to write new text in the text editor.
 The official PythonAutoGUI's screenshot method doesn't capture the mouse pointer. If you want to take a screenshot with the mouse pointer, use our implementation.
 ```py
 from e2b_desktop import Desktop
-desktop_sandbox = Desktop()
-desktop_sandbox.screenshot("screenshot-name.png")
-desktop_sandbox.close()
+with Desktop() as desktop:
+    desktop.screenshot("screenshot-name.png")
 ```
 
 ## How to run the example
@@ -95,7 +121,6 @@ To spawn your custom sandbox, you need to pass the template name or ID to the co
 from e2b_desktop import Desktop
 
 template_name_or_id = "my-sandbox-template"
-desktop_sandbox = Desktop(template_name_or_id)
-# ... perform actions in the sandbox
-desktop_sandbox.close()
+with Desktop(template_name_or_id) as desktop:
+  # ... perform actions in the sandbox
 ```
