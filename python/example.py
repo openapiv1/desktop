@@ -17,7 +17,6 @@ desktop = Desktop(
 end_time = time.time()
 print(f"Desktop creation took {end_time - start_time} seconds")
 
-
 # === TAKING SCREENSHOT ===
 # This will take a screenshot of the desktop sandbox and save it to the current directory as `screenshot-1.png`.
 desktop.screenshot("screenshot-1.png")
@@ -31,9 +30,9 @@ desktop.files.write(text_file_path, "Hello, world!")
 # We need to run this command in background because `mousepad` will keep running until you close the window.
 # Our code would get stuck here.
 desktop.commands.run(
-  f"mousepad {text_file_path}",
-  background=True,
-  envs={"DISPLAY": desktop.DISPLAY},
+    f"mousepad {text_file_path}",
+    background=True,
+    envs={"DISPLAY": desktop.DISPLAY},
 )
 # Wait a bit to make sure it's really open.
 time.sleep(2)

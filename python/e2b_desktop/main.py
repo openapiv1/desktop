@@ -22,8 +22,8 @@ class Desktop(Sandbox):
         )
 
         logger.info("Downloading screenshot")
-        file = self.download_file(screenshot_path)
         with open(name, "wb") as f:
+            file = self.files.read(screenshot_path, format="bytes")
             f.write(file)
 
     @staticmethod

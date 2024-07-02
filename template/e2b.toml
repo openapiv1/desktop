@@ -12,6 +12,6 @@
 template_id = "k0wmnzir0zuzye6dndlw"
 dockerfile = "e2b.Dockerfile"
 template_name = "desktop"
-start_cmd = "./start-up.sh"
+start_cmd = "/start-up.sh"
 cpu_count = 4
 memory_mb = 4_096
