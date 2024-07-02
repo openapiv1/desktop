@@ -14,7 +14,7 @@ with Desktop() as desktop: # Using the `with` clause, the sandbox automatically 
     # Create file and open text editor
     file = "/home/user/test.txt"
     desktop.filesystem.write(file, "world!")
-    
+
     # Normally, we would use `desktop.process.start_and_wait()` to run a new process
     # and wait until it finishes.
     # However, the mousepad command does not exit until you close the window so we
@@ -27,9 +27,9 @@ with Desktop() as desktop: # Using the `with` clause, the sandbox automatically 
         on_stdout=lambda stdout: print(stdout),
         cwd="/home/user",
     )
-    time.sleep(2)  
+    time.sleep(2)
     #####
-    
+
     desktop.screenshot("screenshot-2.png")
 
     # Write "Hello, " in the text editor
