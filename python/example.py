@@ -6,9 +6,9 @@ from e2b_desktop import Desktop
 
 load_dotenv()
 
-# Comment this out to disable all logs in terminal
+# Uncomment this to show debug logs in terminal
 # Or if you want more detailed logs, you can pass `logging.DEBUG`
-logging.basicConfig(level=logging.INFO)
+# logging.basicConfig(level=logging.INFO)
 
 start_time = time.time()
 desktop = Desktop(
@@ -28,7 +28,7 @@ desktop.screenshot("screenshot-1.png")
 # Create file inside the sandbox and open it in a text editor
 text_file_path = "/home/user/test.txt"
 # `data` can be a string or bytes
-desktop.files.write(text_file_path, "Hello, world!")
+desktop.files.write(text_file_path, "world!")
 # Open the text file in `mousepad` program.
 # We need to run this command in background because `mousepad` will keep running until you close the window.
 # Our code would get stuck here.
@@ -43,7 +43,6 @@ time.sleep(2)
 desktop.screenshot("screenshot-2.png")
 # ======================
 
-
 # === USING PYAUTOGUI ===
 # Write "Hello, " in the text editor
 desktop.pyautogui("""
@@ -57,7 +56,6 @@ start_time = time.time()
 desktop.kill()
 end_time = time.time()
 print(f"desktop.kill() took {end_time - start_time} seconds")
-
 
 # You can use the `with` clause to automatically kill the sandbox when you're done.
 with Desktop(timeout=60) as desktop:
