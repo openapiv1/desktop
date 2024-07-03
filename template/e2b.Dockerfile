@@ -29,6 +29,8 @@ ENV PIP_DEFAULT_TIMEOUT=100 \
   PIP_NO_CACHE_DIR=1 \
   DEBIAN_FRONTEND=noninteractive
 
+RUN echo "export DISPLAY=:99" >> /etc/environment
+
 COPY ./requirements.txt requirements.txt
 RUN pip3 install --no-cache-dir -r requirements.txt
 

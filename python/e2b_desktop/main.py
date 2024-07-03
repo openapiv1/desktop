@@ -6,7 +6,6 @@ logger = logging.getLogger(__name__)
 
 
 class Desktop(Sandbox):
-    DISPLAY = ":99"  # Must be the same as the start script env var
     default_template = "desktop"
 
     def screenshot(self, name: str):
@@ -15,7 +14,6 @@ class Desktop(Sandbox):
         logger.info("Capturing screenshot")
         self.commands.run(
             f"scrot --pointer {screenshot_path}",
-            envs={"DISPLAY": self.DISPLAY},
             on_stderr=lambda stderr: logger.debug(stderr),
             on_stdout=lambda stdout: logger.debug(stdout),
             cwd="/home/user",
@@ -54,5 +52,4 @@ exit(0)
             f"python {code_path}",
             on_stdout=lambda stdout: logger.debug(stdout),
             on_stderr=lambda stderr: logger.debug(stderr),
-            envs={"DISPLAY": self.DISPLAY},
         )
