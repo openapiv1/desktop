@@ -112,7 +112,7 @@ poetry run python example.py
 
 After the script is finished, inspect the screenshots by checking them in the `python/` directory.
 
-### **6. (Optional) Modify the template**
+### **6. (optional) Modify the template**
 
 If you want to preinstall dependencies you can modify the desktop template by editing the `template/*` files and then creating a [custom template](https://e2b.dev/docs/guide/custom-sandbox).
 
