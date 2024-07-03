@@ -79,18 +79,18 @@ with Desktop() as desktop:
 
 ## How to run the example
 
-**1. Install dependencies**
+### **1. Install dependencies**
 
 ```bash
 cd python && poetry install
 ```
 
-**2. Add your `E2B_API_KEY=` to the `python/.env` file**
+### **2. Add your `E2B_API_KEY=` to the `python/.env` file**
 Get your E2B API key [here](https://e2b.dev/docs/getting-started/api-key).
 
 Visit [E2B's docs](https://e2b.dev/docs/getting-started/api-key) to get your API key.
 
-**3. (Optional) Modify the script**
+### **3. (Optional) Modify the script**
 
 Modify the [`python/example.py`](python/example.py) file to do what you want — for example, to move the mouse to the coordinates (100, 150), you can add the following line to the `desktop.pyautogui(<code>)` call:
 
@@ -99,20 +99,20 @@ pyautogui.moveTo(100, 150)
 ```
 
 > Running `desktop.pyautogui(<code>)` multiple times is fine.
-
+>
 > You can use all the methods from the [E2B SDK](https://e2b.dev/docs/sandbox/overview) to interact with the desktop.
 
-**4. Run the script**
+### **4. Run the script**
 
 ```bash
 poetry run python example.py
 ```
 
-**5. Inspect the screenshots**
+### **5. Inspect the screenshots**
 
 After the script is finished, inspect the screenshots by checking them in the `python/` directory.
 
-**6. (Optional) Modify the template**
+### **6. (Optional) Modify the template**
 
 If you want to preinstall dependencies you can modify the desktop template by editing the `template/*` files and then creating a [custom template](https://e2b.dev/docs/guide/custom-sandbox).
 
