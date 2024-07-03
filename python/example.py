@@ -19,10 +19,6 @@ desktop = Desktop(
 end_time = time.time()
 print(f"Desktop creation took {end_time - start_time} seconds")
 
-# print(desktop.sandbox_id)
-
-# time.sleep(100000)
-
 # === TAKING SCREENSHOT ===
 # This will take a screenshot of the desktop sandbox and save it to the current directory as `screenshot-1.png`.
 desktop.screenshot("screenshot-1.png")
