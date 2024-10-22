@@ -1,4 +1,4 @@
-# E2B Desktop Environment
+# E2B Sandbox Desktop
 
 This repo shows how to run [E2B's sandboxes](https://e2b.dev/docs/sandbox/overview) with a graphical desktop-like environment. We built this using our [custom sandboxes](https://e2b.dev/docs/sandbox/templates/overview) feature (all the files and code used for this custom sandbox are in the [`template/`](https://github.com/e2b-dev/desktop/tree/main/template) folder.
 The desktop-like environment allows you to start applications like file explorers, browsers, terminals, notes, etc.
