@@ -1,3 +1,3 @@
 from e2b import *
 
-from .main import Desktop
+from .main import Sandbox
