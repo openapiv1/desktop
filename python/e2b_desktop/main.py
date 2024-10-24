@@ -1,9 +1,10 @@
 import uuid
-from typing import Callable
-from e2b import Sandbox as SandboxBase
 import easyocr
 import numpy as np
 import cv2
+
+from typing import Callable, Optional, Union
+from e2b import Sandbox as SandboxBase
 
 
 class Sandbox(SandboxBase):
@@ -12,8 +13,8 @@ class Sandbox(SandboxBase):
     def screenshot(
         self,
         name: str,
-        on_stdout: Callable[[str], None] = None,
-        on_stderr: Callable[[str], None] = None,
+        on_stdout: Optional[Callable[[str], None]] = None,
+        on_stderr: Optional[Callable[[str], None]] = None,
     ):
         """
         Take a screenshot and save it to the given name.
@@ -56,7 +57,11 @@ class Sandbox(SandboxBase):
     def scroll(self, amount: int):
         return self.pyautogui(f"pyautogui.scroll({amount})")
 
-    def mouse_move(self, x_or_coords: int | tuple[int, int], y: int | None = None):
+    def mouse_move(
+        self,
+        x_or_coords: Union[int, tuple[int, int]],
+        y: Optional[int] = None,
+    ):
         """
         Move the mouse to the given coordinates.
         :param x_or_coords: The x coordinate or a tuple of (x, y).
@@ -176,8 +181,8 @@ exit(0)
     def pyautogui(
         self,
         pyautogui_code: str,
-        on_stdout: Callable[[str], None] = None,
-        on_stderr: Callable[[str], None] = None,
+        on_stdout: Optional[Callable[[str], None]] = None,
+        on_stderr: Optional[Callable[[str], None]] = None,
     ):
         code_path = f"/home/user/code-{uuid.uuid4()}.py"
 
