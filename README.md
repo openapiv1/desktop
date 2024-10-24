@@ -4,7 +4,7 @@ E2B Desktop Sandbox is an isolated cloud environment with a desktop-like interfa
 
 Launching E2B Sandbox takes about 300-500ms. You can customize the desktop environment and preinstall any dependencies you want using our [custom sandbox templates](https://e2b.dev/docs/sandbox/templates/overview).
 
-![Screenshot 0](screenshot-0.png)
+![Desktop Sandbox](screenshot.png)
 
 **Work in progress**
 This repository is a work in progress. We welcome feedback and contributions. Here's the list of features we're working on:
