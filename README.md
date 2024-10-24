@@ -1,126 +1,101 @@
-# E2B Sandbox Desktop
+# E2B Desktop Sandbox
 
-This repo shows how to run [E2B's sandboxes](https://e2b.dev/docs/sandbox/overview) with a graphical desktop-like environment. We built this using our [custom sandboxes](https://e2b.dev/docs/sandbox/templates/overview) feature (all the files and code used for this custom sandbox are in the [`template/`](https://github.com/e2b-dev/desktop/tree/main/template) folder.
-The desktop-like environment allows you to start applications like file explorers, browsers, terminals, notes, etc.
+E2B Desktop Sandbox is an isolated cloud environment with a desktop-like interface powered by [E2B](https://e2b.dev).
 
-You can use PyAutoGUI to control the environment programmatically.
+Launching E2B Sandbox takes about 300-500ms. You can customize the desktop environment and preinstall any dependencies you want using our [custom sandbox templates](https://e2b.dev/docs/sandbox/templates/overview).
 
-The desktop-like environment is based on Linux and [Xfce](https://www.xfce.org/) at the moment. We chose Xfce because it's a fast and lightweight environment that's also popular and actively supported. Let us know if you need something else or if Xfce doesn't work for you.
 
-## Example
+**Work in progress**
+This repository is a work in progress. We welcome feedback and contributions. Here's the list of features we're working on:
+- [ ] JavaScript SDK
+- [ ] Streaming live desktop
+- [ ] Tests
+- [ ] Docstrings
 
-The [example script](python/example.py) in this repo does the following and takes a screenshot after each action:
+## Getting started
+The E2B Desktop Sandbox
 
-**1. Start the sandbox with a desktop environment**
+### 1. Get E2B API key
+Sign up at [E2B](https://e2b.dev) and get your API key.
+Set environment variable `E2B_API_KEY` with your API key.
 
-Spawn a new sandbox and take a screenshot.
-
+### 2. Create Desktop Sandbox
 ```python
-with Desktop(timeout=60) as desktop:
-    desktop.screenshot("screenshot.png")
+from e2b_desktop import Sandbox
+
+desktop = Sandbox()
 ```
 
-
-![Step 1](python/screenshot-1.png)
-
----
-
-**2. Open the text editor**
-
-Create a new file, write to the file, and open the file using Xfce's text editor called [Mousepad](https://docs.xfce.org/apps/mousepad/start).
-
+### 3. Mouse control
 ```python
-with Desktop(timeout=60) as desktop:
-  # Create file inside the sandbox and open it in a text editor
-  text_file_path = "/home/user/test.txt"
-  # `data` can be a string or bytes
-  desktop.files.write(text_file_path, "Hello, world!")
-  # Open the text file in `mousepad` program.
-  # We need to run this command in background because `mousepad` will keep running until you close the window.
-  # Our code would get stuck here.
-  desktop.commands.run(
-      f"mousepad {text_file_path}",
-      background=True,
-      envs={"DISPLAY": desktop.DISPLAY},
-  )
-  # Wait a bit to make sure it's really open.
-  time.sleep(2)
-  # Take a screenshot of the desktop with the open `mousepad` window.
-  desktop.screenshot("screenshot-2.png")
+from e2b_desktop import Sandbox
+desktop = Sandbox()
+
+desktop.double_click()
+desktop.left_click()
+desktop.right_click()
+desktop.middle_click()
+desktop.scroll(10) # Scroll by the amount. Positive for up, negative for down.
+desktop.mouse_move(100, 200) # Move to x, y coordinates
 ```
 
-![Step 2](python/screenshot-2.png)
-
----
-
-**3. Use PyAutoGUI**
-
-Use PyAutoGUI to write new text in the text editor.
-
+### 4. Locate on screen
 ```python
-with Desktop(timeout=60) as desktop:
-  pyautogui_code = """
-    pyautogui.write("Hello, ")
-  """
-  desktop.pyautogui(pyaytogui_code)
+from e2b_desktop import Sandbox
+desktop = Sandbox()
+
+x, y = desktop.locate_on_screen("some text on screen")
 ```
 
-![Step 3](python/screenshot-3.png)
-
-## Caveats
-
-#### Use `desktop_sandbox.screenshot()` instead of `pyautogui.screenshot()`
-The official PythonAutoGUI's screenshot method doesn't capture the mouse pointer. If you want to take a screenshot with the mouse pointer, use our implementation.
-```py
-from e2b_desktop import Desktop
-with Desktop() as desktop:
-    desktop.screenshot("screenshot-name.png")
-```
-
-## How to run the example
-
-### **1. Install dependencies**
-
-```bash
-cd python && poetry install
-```
-
-### **2. Add your `E2B_API_KEY=` to the `python/.env` file**
-Get your E2B API key [here](https://e2b.dev/docs/getting-started/api-key).
-
-Visit [E2B's docs](https://e2b.dev/docs/getting-started/api-key) to get your API key.
-
-### **3. (Optional) Modify the script**
-
-Modify the [`python/example.py`](python/example.py) file to do what you want — for example, to move the mouse to the coordinates (100, 150), you can add the following line to the `desktop.pyautogui(<code>)` call:
-
+### 4. Keyboard control
 ```python
-pyautogui.moveTo(100, 150)
+from e2b_desktop import Sandbox
+desktop = Sandbox()
+
+
+desktop.write("Hello, world!") # Write text at the current cursor position
+desktop.hotkey("ctrl", "c") # Press ctrl+c
 ```
 
-> Running `desktop.pyautogui(<code>)` multiple times is fine.
->
-> You can use all the methods from the [E2B SDK](https://e2b.dev/docs/sandbox/overview) to interact with the desktop.
-
-### **4. Run the script**
-
-```bash
-poetry run python example.py
-```
-
-### **5. Inspect the screenshots**
-
-After the script is finished, inspect the screenshots by checking them in the `python/` directory.
-
-### **6. (optional) Modify the template**
-
-If you want to preinstall dependencies you can modify the desktop template by editing the `template/*` files and then creating a [custom template](https://e2b.dev/docs/guide/custom-sandbox).
-
-To spawn your custom sandbox, you need to pass the template name or ID to the constructor
+### 5. Screenshot
 ```python
-from e2b_desktop import Desktop
+from e2b_desktop import Sandbox
+desktop = Sandbox()
 
-template_name_or_id = "my-sandbox-template"
-with Desktop(template_name_or_id) as desktop:
-  # ... perform actions in the sandbox
+desktop.screenshot("screenshot.png")
 ```
+
+### 4. Open application
+```python
+from e2b_desktop import Sandbox
+desktop = Sandbox()
+
+```
+
+### 6. Run any bash commands
+```python
+from e2b_desktop import Sandbox
+desktop = Sandbox()
+
+```
+
+### 7. Run PyAutoGUI commands
+```python
+from e2b_desktop import Sandbox
+desktop = Sandbox()
+
+```
+
+### 8. Customization
+```python
+from e2b_desktop import Sandbox
+desktop = Sandbox()
+
+```
+
+
+## Under the hood
+You can use [PyAutoGUI](https://pyautogui.readthedocs.io/en/latest/) to control the whole environment programmatically.
+
+The desktop-like environment is based on Linux and [Xfce](https://www.xfce.org/) at the moment. We chose Xfce because it's a fast and lightweight environment that's also popular and actively supported. However, this Sandbox template is fully customizable and you can create your own desktop environment.
+Check out the code [here](./template/)

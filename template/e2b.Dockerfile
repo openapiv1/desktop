@@ -1,8 +1,11 @@
 FROM ubuntu:22.04
 
+ENV DEBIAN_FRONTEND=noninteractive
+ENV DEBIAN_PRIORITY=high
+
 RUN yes | unminimize
 
-RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
+RUN apt-get update && apt-get install -y \
   python3-xlib \
   x11-xserver-utils \
   xfce4 \
@@ -22,7 +25,19 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
   xauth \
   gnome-screenshot \
   xserver-xorg \
+  ffmpeg \
+  vim \
   xorg
+
+RUN pip3 install mux_python requests
+
+# Install vscode
+RUN apt update -y \
+  && apt install -y software-properties-common apt-transport-https wget \
+  && wget -qO- https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
+  && add-apt-repository -y "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" \
+  && apt update -y \
+  && apt install -y code
 
 ENV PIP_DEFAULT_TIMEOUT=100 \
   PIP_DISABLE_PIP_VERSION_CHECK=1 \
