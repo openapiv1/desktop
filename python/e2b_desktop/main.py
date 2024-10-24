@@ -1,15 +1,9 @@
 import uuid
-import io
 from typing import Callable
-import pytesseract
-from PIL import Image
 from e2b import Sandbox as SandboxBase
 import easyocr
 import numpy as np
 import cv2
-
-# logger = logging.getLogger(__name__)
-
 
 class Sandbox(SandboxBase):
     default_template = "desktop"
