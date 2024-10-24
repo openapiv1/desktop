@@ -71,7 +71,7 @@ class Sandbox(SandboxBase):
             x, y = x_or_coords
         return self.pyautogui(f"pyautogui.moveTo({x}, {y})")
 
-    def locate_on_screen(self, text: str):
+    def locate_on_screen(self, text: str) -> tuple[int, int] | None:
         """
         Locate the text on the screen and return the position.
         :param text: The text to locate.

@@ -12,15 +12,11 @@ print("Desktop Sandbox ID:", desktop.sandbox_id)
 
 
 pos = desktop.locate_on_screen("Applications")
+if pos is None:
+    raise Exception("Not found on screen")
+
 desktop.mouse_move(pos)
 desktop.left_click()
 
 time.sleep(1)
 desktop.screenshot("2.png")
-
-desktop.double_click()
-desktop.write("Hello, world!")
-
-desktop.commands.run("ls -la /home/user")
-desktop.commands.run("apt-get install code")
-
