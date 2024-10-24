@@ -17,10 +17,3 @@ desktop.left_click()
 
 time.sleep(1)
 desktop.screenshot("2.png")
-
-desktop.double_click()
-desktop.write("Hello, world!")
-
-desktop.commands.run("ls -la /home/user")
-desktop.commands.run("apt-get install code")
-
