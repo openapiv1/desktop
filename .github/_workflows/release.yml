@@ -21,10 +21,10 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Install pnpm
-        uses: pnpm/action-setup@v2
+        uses: pnpm/action-setup@v3
         id: pnpm-install
         with:
-          version: 8
+          version: 9.5
 
       - name: Setup Node
         uses: actions/setup-node@v3
@@ -54,7 +54,6 @@ jobs:
     if: needs.is_release.outputs.release == 'true'
     runs-on: ubuntu-latest
     outputs:
-      js: ${{ steps.filter.outputs.js }}
       python: ${{ steps.filter.outputs.python }}
     steps:
       - name: Checkout repository
@@ -78,8 +77,6 @@ jobs:
         with:
           base: ${{ steps.last_release.outputs.tag_name }}
           filters: |
-            js:
-              - 'js/**'
             python:
               - 'python/**'
 
@@ -90,16 +87,9 @@ jobs:
     uses: ./.github/workflows/python_tests.yml
     secrets: inherit
 
-  js-tests:
-    name: JS Tests
-    needs: [changes]
-    if: needs.changes.outputs.js == 'true'
-    uses: ./.github/workflows/js_tests.yml
-    secrets: inherit
-
   release:
-    needs: [python-tests, js-tests]
-    if: always() && !contains(needs.*.result, 'failure') && needs.is_release.outputs.release == 'true'
+    needs: [python-tests]
+    if: (!cancelled()) && !contains(needs.*.result, 'failure') && needs.is_release.outputs.release == 'true'
     name: Release
     runs-on: ubuntu-latest
     steps:
@@ -109,7 +99,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: "3.10"
+          python-version: "3.8"
 
       - name: Install and configure Poetry
         uses: snok/install-poetry@v1
@@ -119,12 +109,14 @@ jobs:
           virtualenvs-in-project: true
           installer-parallel: true
 
-      - uses: pnpm/action-setup@v2
+      - uses: pnpm/action-setup@v3
+        with:
+          version: 9.5
 
-      - name: Setup Node.js 20
+      - name: Setup Node.js 18
         uses: actions/setup-node@v3
         with:
-          node-version: 20
+          node-version: "18.x"
           cache: pnpm
 
       - name: Configure pnpm
@@ -163,9 +155,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   report-failure:
-    needs: [python-tests, js-tests, release]
+    needs: [python-tests, release]
     if: failure()
-    name: Code Interpreter Release Failed - Slack Notification
+    name: Desktop Release Failed - Slack Notification
     runs-on: ubuntu-latest
     steps:
       - name: Release Failed - Slack Notification
@@ -173,5 +165,5 @@ jobs:
         env:
           SLACK_COLOR: "#ff0000"
           SLACK_MESSAGE: ":here-we-go-again: :bob-the-destroyer: We need :fix-parrot: ASAP :pray:"
-          SLACK_TITLE: Code Interpreter Release Failed
+          SLACK_TITLE: Desktop Release Failed
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
