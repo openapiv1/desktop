@@ -12,8 +12,8 @@ class Sandbox(SandboxBase):
     def screenshot(
         self,
         name: str,
-        on_stdout: Callable[[str], None] = None,
-        on_stderr: Callable[[str], None] = None,
+        on_stdout: Callable[[str], None] | None = None,
+        on_stderr: Callable[[str], None] | None = None,
     ):
         """
         Take a screenshot and save it to the given name.
@@ -66,7 +66,7 @@ class Sandbox(SandboxBase):
             x, y = x_or_coords
         return self.pyautogui(f"pyautogui.moveTo({x}, {y})")
 
-    def locate_on_screen(self, text: str):
+    def locate_on_screen(self, text: str) -> tuple[int, int] | None:
         """
         Locate the text on the screen and return the position.
         :param text: The text to locate.
@@ -176,8 +176,8 @@ exit(0)
     def pyautogui(
         self,
         pyautogui_code: str,
-        on_stdout: Callable[[str], None] = None,
-        on_stderr: Callable[[str], None] = None,
+        on_stdout: Callable[[str], None] | None = None,
+        on_stderr: Callable[[str], None] | None = None,
     ):
         code_path = f"/home/user/code-{uuid.uuid4()}.py"
 

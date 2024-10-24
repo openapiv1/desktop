@@ -12,6 +12,9 @@ print("Desktop Sandbox ID:", desktop.sandbox_id)
 
 
 pos = desktop.locate_on_screen("Applications")
+if pos is None:
+    raise Exception("Not found on screen")
+
 desktop.mouse_move(pos)
 desktop.left_click()
 
