@@ -120,4 +120,5 @@ desktop = Sandbox()
 You can use [PyAutoGUI](https://pyautogui.readthedocs.io/en/latest/) to control the whole environment programmatically.
 
 The desktop-like environment is based on Linux and [Xfce](https://www.xfce.org/) at the moment. We chose Xfce because it's a fast and lightweight environment that's also popular and actively supported. However, this Sandbox template is fully customizable and you can create your own desktop environment.
-Check out the code [here](./template/)
+Check out the sandbox template's code [here](./template/).
+
