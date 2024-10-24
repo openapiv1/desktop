@@ -1,4 +1,4 @@
-# E2B Desktop Sandbox
+# E2B Desktop Sandbox (beta)
 
 E2B Desktop Sandbox is an isolated cloud environment with a desktop-like interface powered by [E2B](https://e2b.dev).
 
