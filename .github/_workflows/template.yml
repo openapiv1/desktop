@@ -1,10 +1,10 @@
-name: Build and push Code Interpreter template
+name: Build and push Desktop template
 
 on:
   push:
     paths:
-      - 'template/**'
-      - '.github/workflows/template.yml'
+      - "template/**"
+      - ".github/workflows/template.yml"
     branches:
       - main
 
@@ -34,12 +34,12 @@ jobs:
 
       - name: Build and push to DockerHub
         run: |
-          docker pull ${{ secrets.DOCKERHUB_USERNAME }}/code-interpreter:latest || true
+          docker pull ${{ secrets.DOCKERHUB_USERNAME }}/desktop:latest || true
           docker buildx build \
             --file e2b.Dockerfile \
             --platform linux/amd64,linux/arm64 \
             --push \
-            --tag ${{ secrets.DOCKERHUB_USERNAME }}/code-interpreter:latest .
+            --tag ${{ secrets.DOCKERHUB_USERNAME }}/desktop:latest .
 
       - name: Install E2B CLI
         run: npm install -g @e2b/cli
