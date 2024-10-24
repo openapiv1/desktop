@@ -13,6 +13,31 @@ This repository is a work in progress. We welcome feedback and contributions. He
 - [ ] Tests
 - [ ] Docstrings
 
+## Getting started
+The E2B Desktop Sandbox is built on top of [E2B Sandbox](https://e2b.dev/docs).
+
+### 1. Get E2B API key
+Sign up at [E2B](https://e2b.dev) and get your API key.
+Set environment variable `E2B_API_KEY` with your API key.
+
+### 2. Install SDK
+**Python**
+```bash
+pip install e2b-desktop
+```
+
+**JavaScript**
+```bash
+Coming soon
+```
+
+### 3. Create Desktop Sandbox
+```python
+from e2b_desktop import Sandbox
+
+desktop = Sandbox()
+```
+
 ## Features
 
 ### Mouse control
@@ -90,20 +115,6 @@ desktop.pyautogui("pyautogui.click()")
 from e2b_desktop import Sandbox
 desktop = Sandbox()
 ``` -->
-
-## Getting started
-The E2B Desktop Sandbox
-
-### 1. Get E2B API key
-Sign up at [E2B](https://e2b.dev) and get your API key.
-Set environment variable `E2B_API_KEY` with your API key.
-
-### 2. Create Desktop Sandbox
-```python
-from e2b_desktop import Sandbox
-
-desktop = Sandbox()
-```
 
 ## Under the hood
 You can use [PyAutoGUI](https://pyautogui.readthedocs.io/en/latest/) to control the whole environment programmatically.

@@ -1,4 +1,3 @@
-# import logging
 import time
 import sys
 
@@ -7,10 +6,7 @@ from e2b_desktop import Sandbox
 
 load_dotenv()
 
-
-desktop = Sandbox(
-    timeout=60,
-)
+desktop = Sandbox(timeout=60) # Keep sandbox alive for 60 seconds
 print("Desktop Sandbox ID:", desktop.sandbox_id)
 
 
