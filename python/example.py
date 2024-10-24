@@ -4,23 +4,14 @@ import sys
 
 from dotenv import load_dotenv
 from e2b_desktop import Sandbox
-from e2b_desktop.stream import code
 
 load_dotenv()
 
-# Uncomment this to show debug logs in terminal
-# Or if you want more detailed logs, you can pass `logging.DEBUG`
-# logging.basicConfig(level=logging.INFO)
 
-start_time = time.time()
 desktop = Sandbox(
-    # Optional timeout after which the sandbox will be automatically killed.
-    # If no timeout is specified, it fallbacks to the default timeout of 300 seconds.
     timeout=60,
 )
-end_time = time.time()
-print(f"Desktop creation took {end_time - start_time} seconds")
-print(desktop.sandbox_id)
+print("Desktop Sandbox ID:", desktop.sandbox_id)
 
 
 desktop.right_click()
