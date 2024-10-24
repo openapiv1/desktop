@@ -5,10 +5,16 @@ import easyocr
 import numpy as np
 import cv2
 
+
 class Sandbox(SandboxBase):
     default_template = "desktop"
 
-    def screenshot(self, name: str, on_stdout: Callable[[str], None] = None, on_stderr: Callable[[str], None] = None):
+    def screenshot(
+        self,
+        name: str,
+        on_stdout: Callable[[str], None] = None,
+        on_stderr: Callable[[str], None] = None,
+    ):
         """
         Take a screenshot and save it to the given name.
         :param name: The name of the screenshot file to save locally.
@@ -76,19 +82,20 @@ class Sandbox(SandboxBase):
         image = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
 
         # Initialize EasyOCR reader
-        reader = easyocr.Reader(['en'])
+        reader = easyocr.Reader(["en"])
 
         # Perform OCR
         results = reader.readtext(image)
 
         # Find the text in the results
-        for (bbox, detected_text, prob) in results:
+        for bbox, detected_text, prob in results:
             if text.lower() in detected_text.lower():
                 # Calculate center of bounding box
                 (top_left, top_right, bottom_right, bottom_left) = bbox
                 center_x = (top_left[0] + bottom_right[0]) / 2
                 center_y = (top_left[1] + bottom_right[1]) / 2
                 return center_x, center_y
+        return None
 
     def get_cursor_position(self):
         """
@@ -96,11 +103,13 @@ class Sandbox(SandboxBase):
         :return: A tuple with the x and y coordinates.
         """
         # We save the value to a file because stdout contains warnings about Xauthority.
-        self.pyautogui("""
+        self.pyautogui(
+            """
 x, y = pyautogui.position()
 with open("/tmp/cursor_position.txt", "w") as f:
     f.write(str(x) + " " + str(y))
-""")
+"""
+        )
         # pos is like this: 100 200
         pos = self.files.read("/tmp/cursor_position.txt")
         return tuple(map(int, pos.split(" ")))
@@ -111,11 +120,13 @@ with open("/tmp/cursor_position.txt", "w") as f:
         :return: A tuple with the width and height.
         """
         # We save the value to a file because stdout contains warnings about Xauthority.
-        self.pyautogui("""
+        self.pyautogui(
+            """
 width, height = pyautogui.size()
 with open("/tmp/size.txt", "w") as f:
     f.write(str(width) + " " + str(height))
-""")
+"""
+        )
         # size is like this: 100 200
         size = self.files.read("/tmp/size.txt")
         return tuple(map(int, size.split(" ")))
@@ -162,7 +173,12 @@ pyautogui._pyautogui_x11._display = display
 exit(0)
 """
 
-    def pyautogui(self, pyautogui_code: str, on_stdout: Callable[[str], None] = None, on_stderr: Callable[[str], None] = None):
+    def pyautogui(
+        self,
+        pyautogui_code: str,
+        on_stdout: Callable[[str], None] = None,
+        on_stderr: Callable[[str], None] = None,
+    ):
         code_path = f"/home/user/code-{uuid.uuid4()}.py"
 
         code = self._wrap_pyautogui_code(pyautogui_code)
