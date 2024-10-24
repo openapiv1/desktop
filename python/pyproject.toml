@@ -4,8 +4,9 @@ version = "0.0.1"
 description = "E2B Desktop - Desktop in cloud powered by E2B"
 authors = ["e2b <hello@e2b.dev>"]
 license = "Apache-2.0"
+readme = "../README.md"
 homepage = "https://e2b.dev/"
-repository = "https://github.com/e2b-dev/desktop"
+repository = "https://github.com/e2b-dev/desktop/tree/main/python"
 packages = [{ include = "e2b_desktop" }]
 
 [tool.poetry.dependencies]
