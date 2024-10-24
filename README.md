@@ -1,6 +1,7 @@
 # E2B Desktop Sandbox (beta)
 
-E2B Desktop Sandbox is an isolated cloud environment with a desktop-like interface powered by [E2B](https://e2b.dev) that's ready for Computer Use.
+E2B Desktop Sandbox is an isolated cloud environment with a desktop-like interface powered by [E2B](https://e2b.dev).
+Ready for [Computer Use](https://docs.anthropic.com/en/docs/build-with-claude/computer-use).
 
 Launching E2B Sandbox takes about 300-500ms. You can customize the desktop environment and preinstall any dependencies you want using our [custom sandbox templates](https://e2b.dev/docs/sandbox-template).
 
