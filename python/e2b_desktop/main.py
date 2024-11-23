@@ -11,9 +11,7 @@ import requests
 
 class Sandbox(SandboxBase):
     default_template = "desktop"
-
     stream_base_url = "https://e2b.dev"
-    stream_base_url = "https://e2b-bpg79g2v6-e2b.vercel.app"
 
     @staticmethod
     def start_livestream(sandbox, api_key, sandbox_id, on_livestream_start=None):
