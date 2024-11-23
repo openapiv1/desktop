@@ -1,16 +1,63 @@
 import uuid
-import easyocr
-import numpy as np
-import cv2
+
+# import easyocr
+# import numpy as np
+# import cv2
 
 from typing import Callable, Optional, Union
 from e2b import Sandbox as SandboxBase
+import requests
 
 
 class Sandbox(SandboxBase):
     default_template = "desktop"
 
-    def screenshot(
+    stream_base_url = "https://e2b.dev"
+    stream_base_url = "https://e2b-bpg79g2v6-e2b.vercel.app"
+
+    @staticmethod
+    def start_livestream(sandbox, api_key, sandbox_id, on_livestream_start=None):
+
+        # First we get the stream key
+        response = requests.post(
+            f"{Sandbox.stream_base_url}/api/stream/sandbox",
+            headers={
+                "Content-Type": "application/json",
+                "X-API-Key": api_key,
+            },
+            json={"sandboxId": sandbox_id},
+        )
+
+        if not response.ok:
+            raise Exception(
+                f"Failed to start livestream {response.status_code}: {response.text}"
+            )
+
+        data = response.json()
+        command = (
+            "ffmpeg -video_size 1024x768 -f x11grab -i :99 -c:v libx264 -c:a aac -g 50 "
+            "-b:v 4000k -maxrate 4000k -bufsize 8000k -f flv rtmp://global-live.mux.com:5222/app/$STREAM_KEY"
+        )
+        sandbox.commands.run(
+            command,
+            background=True,
+            envs={"STREAM_KEY": data["streamKey"]},
+        )
+        url = sandbox.get_livestream_url()
+        if on_livestream_start:
+            on_livestream_start(url)
+
+    def __init__(self, *args, livestream=False, **kwargs):
+        super().__init__(*args, **kwargs)
+        if livestream:
+            self.start_livestream(
+                self, self._connection_config.api_key, self.sandbox_id
+            )
+
+    def get_livestream_url(self):
+        return f"{self.stream_base_url}/stream/sandbox/{self.sandbox_id}"
+
+    def take_screenshot(
         self,
         name: str,
         on_stdout: Optional[Callable[[str], None]] = None,
@@ -57,50 +104,44 @@ class Sandbox(SandboxBase):
     def scroll(self, amount: int):
         return self.pyautogui(f"pyautogui.scroll({amount})")
 
-    def mouse_move(
-        self,
-        x_or_coords: Union[int, tuple[int, int]],
-        y: Optional[int] = None,
-    ):
+    def move_mouse(self, x: int, y: int):
         """
         Move the mouse to the given coordinates.
-        :param x_or_coords: The x coordinate or a tuple of (x, y).
-        :param y: The y coordinate, if x_or_coords is not a tuple.
+        :param x: The x coordinate.
+        :param y: The y coordinate.
         """
-        if isinstance(x_or_coords, tuple):
-            x, y = x_or_coords
         return self.pyautogui(f"pyautogui.moveTo({x}, {y})")
 
-    def locate_on_screen(self, text: str) -> tuple[int, int] | None:
-        """
-        Locate the text on the screen and return the position.
-        :param text: The text to locate.
-        """
+    # def locate_on_screen(self, text: str) -> tuple[int, int] | None:
+    #     """
+    #     Locate the text on the screen and return the position.
+    #     :param text: The text to locate.
+    #     """
 
-        # Take a screenshot
-        screenshot_path = f"/home/user/screenshot-{uuid.uuid4()}.png"
-        self.commands.run(f"scrot --pointer {screenshot_path}")
-        image_bytes = self.files.read(screenshot_path, format="bytes")
+    #     # Take a screenshot
+    #     screenshot_path = f"/home/user/screenshot-{uuid.uuid4()}.png"
+    #     self.commands.run(f"scrot --pointer {screenshot_path}")
+    #     image_bytes = self.files.read(screenshot_path, format="bytes")
 
-        # Convert bytes to numpy array
-        nparr = np.frombuffer(image_bytes, np.uint8)
-        image = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+    #     # Convert bytes to numpy array
+    #     nparr = np.frombuffer(image_bytes, np.uint8)
+    #     image = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
 
-        # Initialize EasyOCR reader
-        reader = easyocr.Reader(["en"])
+    #     # Initialize EasyOCR reader
+    #     reader = easyocr.Reader(["en"])
 
-        # Perform OCR
-        results = reader.readtext(image)
+    #     # Perform OCR
+    #     results = reader.readtext(image)
 
-        # Find the text in the results
-        for bbox, detected_text, prob in results:
-            if text.lower() in detected_text.lower():
-                # Calculate center of bounding box
-                (top_left, top_right, bottom_right, bottom_left) = bbox
-                center_x = (top_left[0] + bottom_right[0]) / 2
-                center_y = (top_left[1] + bottom_right[1]) / 2
-                return center_x, center_y
-        return None
+    #     # Find the text in the results
+    #     for bbox, detected_text, prob in results:
+    #         if text.lower() in detected_text.lower():
+    #             # Calculate center of bounding box
+    #             (top_left, top_right, bottom_right, bottom_left) = bbox
+    #             center_x = (top_left[0] + bottom_right[0]) / 2
+    #             center_y = (top_left[1] + bottom_right[1]) / 2
+    #             return center_x, center_y
+    #     return None
 
     def get_cursor_position(self):
         """
@@ -143,10 +184,17 @@ with open("/tmp/size.txt", "w") as f:
         """
         return self.pyautogui(f"pyautogui.write({text!r})")
 
+    def press(self, key: str):
+        """
+        Press a key.
+        :param key: The key to press (e.g. "enter", "space", "backspace", etc.).
+        """
+        return self.pyautogui(f"pyautogui.press({key!r})")
+
     def hotkey(self, *keys):
         """
         Press a hotkey.
-        :param keys: The keys to press.
+        :param keys: The keys to press (e.g. `hotkey("ctrl", "c")` will press Ctrl+C).
         """
         return self.pyautogui(f"pyautogui.hotkey({keys!r})")
 
@@ -156,13 +204,6 @@ with open("/tmp/size.txt", "w") as f:
         :param file_or_url: The file or URL to open.
         """
         return self.commands.run(f"xdg-open {file_or_url}", background=True)
-
-    def install_package(self, package: str):
-        """
-        Install a package with apt.
-        :param package: The package to install.
-        """
-        return self.commands.run(f"apt-get install -y {package}")
 
     @staticmethod
     def _wrap_pyautogui_code(code: str):

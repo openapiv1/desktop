@@ -13,9 +13,7 @@ packages = [{ include = "e2b_desktop" }]
 python = "^3.9"
 
 e2b = "^1.0.1"
-easyocr = "^1.7.2"
-numpy = "1.24"
-opencv-python = "4.8.1.78"
+requests = "^2.32.3"
 
 [tool.poetry.group.dev.dependencies]
 black = "^24.3.0"
