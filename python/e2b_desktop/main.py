@@ -12,8 +12,7 @@ import requests
 
 class Sandbox(SandboxBase):
     default_template = "desktop"
-    # stream_base_url = "https://e2b.dev"
-    stream_base_url = "http://localhost:3000"
+    stream_base_url = "https://e2b.dev"
 
     @staticmethod
     def start_video_stream(sandbox, api_key, sandbox_id):

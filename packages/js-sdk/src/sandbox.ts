@@ -9,8 +9,7 @@ export interface SandboxOpts extends SandboxOptsBase {
 
 export class Sandbox extends SandboxBase {
   protected static override readonly defaultTemplate: string = 'desktop'
-  // private static readonly streamBaseUrl = 'https://e2b.dev'
-  private static readonly streamBaseUrl = 'http://localhost:3000'
+  private static readonly streamBaseUrl = 'https://e2b.dev'
   private videoStreamToken?: string
 
   private static async startVideoStream(sandbox: Sandbox, apiKey: string, sandboxId: string, onVideoStreamStart?: (url: string) => void) {
