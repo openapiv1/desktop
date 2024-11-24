@@ -54,7 +54,9 @@ jobs:
     if: needs.is_release.outputs.release == 'true'
     runs-on: ubuntu-latest
     outputs:
-      python: ${{ steps.filter.outputs.python }}
+      js-sdk: ${{ steps.filter.outputs.js-sdk }}
+      python-sdk: ${{ steps.filter.outputs.python-sdk }}
+      cli: ${{ steps.filter.outputs.cli }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -77,87 +79,22 @@ jobs:
         with:
           base: ${{ steps.last_release.outputs.tag_name }}
           filters: |
-            python:
-              - 'python/**'
+            js-sdk:
+              - 'packages/js-sdk/src/**'
+            python-sdk:
+              - 'packages/python-sdk/e2b/**'
 
-  python-tests:
-    name: Python Tests
-    needs: [changes]
-    if: needs.changes.outputs.python == 'true'
-    uses: ./.github/workflows/python_tests.yml
+  publish:
+    name: Publish
+    needs: [is_release]
+    if: (!cancelled()) && !contains(needs.*.result, 'failure') && needs.is_release.outputs.release == 'true'
+    uses: ./.github/workflows/publish_packages.yml
     secrets: inherit
 
-  release:
-    needs: [python-tests]
-    if: (!cancelled()) && !contains(needs.*.result, 'failure') && needs.is_release.outputs.release == 'true'
-    name: Release
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Repo
-        uses: actions/checkout@v3
-
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: "3.9"
-
-      - name: Install and configure Poetry
-        uses: snok/install-poetry@v1
-        with:
-          version: 1.8.1
-          virtualenvs-create: true
-          virtualenvs-in-project: true
-          installer-parallel: true
-
-      - uses: pnpm/action-setup@v3
-        with:
-          version: 9.5
-
-      - name: Setup Node.js 18
-        uses: actions/setup-node@v3
-        with:
-          node-version: "18.x"
-          cache: pnpm
-
-      - name: Configure pnpm
-        run: |
-          pnpm config set auto-install-peers true
-          pnpm config set exclude-links-from-lockfile true
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Create new versions
-        run: pnpm run version
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Release new versions
-        uses: changesets/action@v1
-        with:
-          publish: pnpm run publish
-          createGithubReleases: true
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-          PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}
-
-      - name: Update lock file
-        run: pnpm i --no-link --no-frozen-lockfile
-
-      - name: Commit new versions
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git commit -am "[skip ci] Release new versions" || exit 0
-          git push
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
   report-failure:
-    needs: [python-tests, release]
+    needs: [publish]
     if: failure()
-    name: Desktop Release Failed - Slack Notification
+    name: Release Failed - Slack Notification
     runs-on: ubuntu-latest
     steps:
       - name: Release Failed - Slack Notification
@@ -165,5 +102,5 @@ jobs:
         env:
           SLACK_COLOR: "#ff0000"
           SLACK_MESSAGE: ":here-we-go-again: :bob-the-destroyer: We need :fix-parrot: ASAP :pray:"
-          SLACK_TITLE: Desktop Release Failed
+          SLACK_TITLE: Release Failed
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
