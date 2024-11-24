@@ -15,7 +15,7 @@ class Sandbox(SandboxBase):
     stream_base_url = "https://e2b.dev"
 
     @staticmethod
-    def start_video_stream(sandbox, api_key, sandbox_id):
+    def start_video_stream(sandbox: "Sandbox", api_key: str, sandbox_id: str):
 
         # First we need to get the stream key
         response = requests.post(
@@ -46,6 +46,9 @@ class Sandbox(SandboxBase):
 
     def __init__(self, *args, video_stream=False, **kwargs):
         super().__init__(*args, **kwargs)
+        if not self._connection_config.api_key:
+            raise ValueError("API key is required")
+
         if video_stream:
             self.start_video_stream(
                 self,
