@@ -65,9 +65,9 @@ print(stream_url)
 ```javascript
 import { Sandbox } from '@e2b/desktop'
 
-const desktop = await Sandbox.create({ videoStream: true })
-const streamUrl = await desktop.getVideoStreamUrl()
-console.log(streamUrl)
+const desktop = await Sandbox.create({ videoStream: true, onVideoStreamStart: (streamUrl) => {
+  console.log(streamUrl)
+}})
 // Open streamUrl in your browser
 // You'll need to wait a couple of seconds for the stream to buffer the first frames
 ```

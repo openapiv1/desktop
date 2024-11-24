@@ -118,7 +118,6 @@ export class Sandbox extends SandboxBase {
     const response = await fetch(`${Sandbox.streamBaseUrl}/api/stream/sandbox/${this.sandboxId}`, {
       method: 'GET',
       headers: {
-        'Content-Type': 'application/json',
         'X-API-Key': this.connectionConfig.apiKey!
       }
     })
