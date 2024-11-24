@@ -278,33 +278,6 @@ with open("/tmp/size.txt", "w") as f:
     return { width, height }
   }
 
-  // /**
-  //  * Locate the given text on the screen.
-  //  * @param text - The text to locate.
-  //  * @returns An object with the following properties:
-  //  * - `x0`: The left coordinate of the text.
-  //  * - `y0`: The top coordinate of the text.
-  //  * - `x1`: The right coordinate of the text.
-  //  * - `y1`: The bottom coordinate of the text.
-  //  * - `xCenter`: The center x coordinate of the text.
-  //  * - `yCenter`: The center y coordinate of the text.
-  //  */
-  // async locateTextOnScreen(text: string) {
-  //   const imageData = await this.takeScreenshot()
-  //   const textPositions = await extractText(imageData)
-  //   const textPosition = textPositions.find((t) => t.text.includes(text))
-  //   if (!textPosition) return null
-  //   return {
-  //     x0: textPosition.bbox.x0, // left
-  //     y0: textPosition.bbox.y0, // top
-  //     x1: textPosition.bbox.x1, // right
-  //     y1: textPosition.bbox.y1, // bottom
-  //     xCenter: (textPosition.bbox.x0 + textPosition.bbox.x1) / 2,
-  //     yCenter: (textPosition.bbox.y0 + textPosition.bbox.y1) / 2,
-  //   }
-  // }
-
-
   /**
    * Run the given Python code that uses pyautogui.
    */

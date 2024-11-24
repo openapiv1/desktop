@@ -155,37 +155,6 @@ class Sandbox(SandboxBase):
         """
         return self.pyautogui(f"pyautogui.moveTo({x}, {y})")
 
-    # def locate_on_screen(self, text: str) -> tuple[int, int] | None:
-    #     """
-    #     Locate the text on the screen and return the position.
-    #     :param text: The text to locate.
-    #     """
-
-    #     # Take a screenshot
-    #     screenshot_path = f"/home/user/screenshot-{uuid.uuid4()}.png"
-    #     self.commands.run(f"scrot --pointer {screenshot_path}")
-    #     image_bytes = self.files.read(screenshot_path, format="bytes")
-
-    #     # Convert bytes to numpy array
-    #     nparr = np.frombuffer(image_bytes, np.uint8)
-    #     image = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
-
-    #     # Initialize EasyOCR reader
-    #     reader = easyocr.Reader(["en"])
-
-    #     # Perform OCR
-    #     results = reader.readtext(image)
-
-    #     # Find the text in the results
-    #     for bbox, detected_text, prob in results:
-    #         if text.lower() in detected_text.lower():
-    #             # Calculate center of bounding box
-    #             (top_left, top_right, bottom_right, bottom_left) = bbox
-    #             center_x = (top_left[0] + bottom_right[0]) / 2
-    #             center_y = (top_left[1] + bottom_right[1]) / 2
-    #             return center_x, center_y
-    #     return None
-
     def get_cursor_position(self):
         """
         Get the current cursor position.
