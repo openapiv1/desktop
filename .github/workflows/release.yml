@@ -80,9 +80,9 @@ jobs:
           base: ${{ steps.last_release.outputs.tag_name }}
           filters: |
             js-sdk:
-              - 'packages/js-sdk/src/**'
+              - 'packages/js-sdk/**'
             python-sdk:
-              - 'packages/python-sdk/e2b/**'
+              - 'packages/python-sdk/**'
 
   publish:
     name: Publish
