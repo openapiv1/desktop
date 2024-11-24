@@ -50,6 +50,7 @@ Then call `getVideoStreamUrl` in JS and `get_video_stream_url` method in Python 
 
 You'll need to wait a couple of seconds for the stream to buffer the first frames.
 
+![Desktop Sandbox](readme-assets/video-stream.png)
 
 **Python**
 ```python
