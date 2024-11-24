@@ -1,6 +1,6 @@
 {
   "name": "@e2b/desktop",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "E2B Desktop Sandbox - isolated cloud environment with a desktop-like interface powered by E2B. Ready for AI Computer Use",
   "author": {
     "name": "FoundryLabs, Inc.",
@@ -41,12 +41,13 @@
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
+  "sideEffects": false,
   "scripts": {
+    "prepublishOnly": "pnpm build",
     "build": "tsc --noEmit && tsup",
-    "example": "tsx example.mts",
     "dev": "tsup --watch",
     "test": "vitest run --disable-console-intercept",
-    "test:coverage": "vitest run --coverage"
+    "example": "npx tsx example.mts"
   },
   "devDependencies": {
     "dotenv": "^16.4.5",
