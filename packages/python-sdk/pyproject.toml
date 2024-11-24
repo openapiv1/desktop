@@ -6,16 +6,14 @@ authors = ["e2b <hello@e2b.dev>"]
 license = "Apache-2.0"
 readme = "README.md"
 homepage = "https://e2b.dev/"
-repository = "https://github.com/e2b-dev/desktop/tree/main/python"
+repository = "https://github.com/e2b-dev/desktop/tree/main/packages/python-sdk"
 packages = [{ include = "e2b_desktop" }]
 
 [tool.poetry.dependencies]
 python = "^3.9"
 
-e2b = "^1.0.1"
-easyocr = "^1.7.2"
-numpy = "1.24"
-opencv-python = "4.8.1.78"
+e2b = "^1.0.4"
+requests = "^2.32.3"
 
 [tool.poetry.group.dev.dependencies]
 black = "^24.3.0"

@@ -9,10 +9,10 @@ Launching E2B Sandbox takes about 300-500ms. You can customize the desktop envir
 
 **Work in progress**
 This repository is a work in progress. We welcome feedback and contributions. Here's the list of features we're working on:
-- [ ] JavaScript SDK
-- [ ] Streaming live desktop
+- [x] JavaScript SDK
+- [x] Streaming live desktop
 - [ ] Tests
-- [ ] Docstrings
+- [x] Docstrings
 
 ## Getting started
 The E2B Desktop Sandbox is built on top of [E2B Sandbox](https://e2b.dev/docs).
@@ -29,7 +29,7 @@ pip install e2b-desktop
 
 **JavaScript**
 ```bash
-Coming soon
+npm install @e2b/desktop
 ```
 
 ### 3. Create Desktop Sandbox

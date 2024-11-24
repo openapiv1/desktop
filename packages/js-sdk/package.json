@@ -1,0 +1,62 @@
+{
+  "name": "@e2b/desktop",
+  "version": "1.0.0",
+  "description": "E2B Desktop Sandbox - isolated cloud environment with a desktop-like interface powered by E2B. Ready for AI Computer Use",
+  "author": {
+    "name": "FoundryLabs, Inc.",
+    "email": "hello@e2b.dev",
+    "url": "https://e2b.dev"
+  },
+  "keywords": [
+    "e2b",
+    "ai-agents",
+    "agents",
+    "ai",
+    "computer-use",
+    "sandbox",
+    "code",
+    "runtime",
+    "vm"
+  ],
+  "bugs": "https://github.com/e2b-dev/desktop/issues",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/e2b-dev/desktop",
+    "directory": "packages/js-sdk"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "package.json"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "browserslist": [
+    "defaults"
+  ],
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc --noEmit && tsup",
+    "example": "tsx example.mts",
+    "dev": "tsup --watch",
+    "test": "vitest run --disable-console-intercept",
+    "test:coverage": "vitest run --coverage"
+  },
+  "devDependencies": {
+    "canvas": "^2.11.2",
+    "dotenv": "^16.4.5",
+    "tsup": "^8.3.5",
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3",
+    "vitest": "^2.1.5"
+  },
+  "dependencies": {
+    "e2b": "^1.0.5"
+  }
+}
