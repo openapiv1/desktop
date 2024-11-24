@@ -1,11 +1,7 @@
 import { config } from 'dotenv'
-// import Tesseract from 'tesseract.js'
-import { createCanvas, loadImage } from 'canvas'
-import fs from 'fs'
 
 config()
 import { Sandbox } from './dist'
-
 
 
 const sbx = await Sandbox.create({
