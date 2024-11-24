@@ -55,3 +55,52 @@ COPY ./Xauthority /home/user/.Xauthority
 
 COPY ./start-up.sh /
 RUN chmod +x /start-up.sh
+
+RUN apt-get update && \
+  apt-get -y upgrade && \
+  apt-get -y install \
+  build-essential \
+  # UI Requirements
+  xvfb \
+  xterm \
+  xdotool \
+  scrot \
+  imagemagick \
+  sudo \
+  mutter \
+  x11vnc \
+  # Python/pyenv reqs
+  build-essential \
+  libssl-dev  \
+  zlib1g-dev \
+  libbz2-dev \
+  libreadline-dev \
+  libsqlite3-dev \
+  curl \
+  git \
+  libncursesw5-dev \
+  xz-utils \
+  tk-dev \
+  libxml2-dev \
+  libxmlsec1-dev \
+  libffi-dev \
+  liblzma-dev \
+  # Network tools
+  net-tools \
+  netcat \
+  # PPA req
+  software-properties-common && \
+  # Userland apps
+  sudo add-apt-repository ppa:mozillateam/ppa && \
+  sudo apt-get install -y --no-install-recommends \
+  libreoffice \
+  firefox-esr \
+  x11-apps \
+  xpdf \
+  gedit \
+  xpaint \
+  tint2 \
+  galculator \
+  pcmanfm \
+  unzip && \
+  apt-get clean
