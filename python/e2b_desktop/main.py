@@ -1,4 +1,5 @@
 import uuid
+from typing import Literal, Iterator, overload
 
 # import easyocr
 # import numpy as np
@@ -11,12 +12,13 @@ import requests
 
 class Sandbox(SandboxBase):
     default_template = "desktop"
-    stream_base_url = "https://e2b.dev"
+    # stream_base_url = "https://e2b.dev"
+    stream_base_url = "http://localhost:3000"
 
     @staticmethod
-    def start_livestream(sandbox, api_key, sandbox_id, on_livestream_start=None):
+    def start_video_stream(sandbox, api_key, sandbox_id):
 
-        # First we get the stream key
+        # First we need to get the stream key
         response = requests.post(
             f"{Sandbox.stream_base_url}/api/stream/sandbox",
             headers={
@@ -28,10 +30,11 @@ class Sandbox(SandboxBase):
 
         if not response.ok:
             raise Exception(
-                f"Failed to start livestream {response.status_code}: {response.text}"
+                f"Failed to start video stream {response.status_code}: {response.text}"
             )
 
         data = response.json()
+        sandbox.video_stream_token = data["token"]
         command = (
             "ffmpeg -video_size 1024x768 -f x11grab -i :99 -c:v libx264 -c:a aac -g 50 "
             "-b:v 4000k -maxrate 4000k -bufsize 8000k -f flv rtmp://global-live.mux.com:5222/app/$STREAM_KEY"
@@ -41,42 +44,78 @@ class Sandbox(SandboxBase):
             background=True,
             envs={"STREAM_KEY": data["streamKey"]},
         )
-        url = sandbox.get_livestream_url()
-        if on_livestream_start:
-            on_livestream_start(url)
 
-    def __init__(self, *args, livestream=False, **kwargs):
+    def __init__(self, *args, video_stream=False, **kwargs):
         super().__init__(*args, **kwargs)
-        if livestream:
-            self.start_livestream(
-                self, self._connection_config.api_key, self.sandbox_id
+        if video_stream:
+            self.start_video_stream(
+                self,
+                self._connection_config.api_key,
+                self.sandbox_id,
             )
 
-    def get_livestream_url(self):
-        return f"{self.stream_base_url}/stream/sandbox/{self.sandbox_id}"
+    def get_video_stream_url(self):
+        """
+        Get the video stream URL.
+        """
+        # We already have the token
+        if hasattr(self, "video_stream_token") and self.video_stream_token:
+            return f"{self.stream_base_url}/stream/sandbox/{self.sandbox_id}?token={self.video_stream_token}"
+
+        # In cases like when a user reconnects to the sandbox, we don't have the token yet and need to get it from the server
+        response = requests.get(
+            f"{self.stream_base_url}/api/stream/sandbox/{self.sandbox_id}",
+            headers={
+                "Content-Type": "application/json",
+                "X-API-Key": self._connection_config.api_key,
+            },
+        )
+
+        if not response.ok:
+            raise Exception(
+                f"Failed to get stream token: {response.status_code} {response.reason}"
+            )
+
+        data = response.json()
+        self.video_stream_token = data["token"]
+
+        return f"{self.stream_base_url}/stream/sandbox/{self.sandbox_id}?token={self.video_stream_token}"
+
+    @overload
+    def take_screenshot(self, format: Literal["stream"]) -> Iterator[bytes]:
+        """
+        Take a screenshot and return it as a stream of bytes.
+        """
+        ...
+
+    @overload
+    def take_screenshot(
+        self,
+        format: Literal["bytes"],
+    ) -> bytearray:
+        """
+        Take a screenshot and return it as a bytearray.
+        """
+        ...
 
     def take_screenshot(
         self,
-        name: str,
-        on_stdout: Optional[Callable[[str], None]] = None,
-        on_stderr: Optional[Callable[[str], None]] = None,
+        format: Literal["bytes", "stream"] = "bytes",
     ):
         """
-        Take a screenshot and save it to the given name.
-        :param name: The name of the screenshot file to save locally.
+        Take a screenshot and return it in the specified format.
+        :param format: The format of the screenshot. Can be 'bytes', 'blob', or 'stream'.
+        :returns: The screenshot in the specified format.
         """
-        screenshot_path = f"/home/user/screenshot-{uuid.uuid4()}.png"
+        screenshot_path = f"/tmp/screenshot-{uuid.uuid4()}.png"
 
         self.commands.run(
             f"scrot --pointer {screenshot_path}",
-            on_stderr=on_stderr,
-            on_stdout=on_stdout,
-            cwd="/home/user",
         )
 
-        with open(name, "wb") as f:
-            file = self.files.read(screenshot_path, format="bytes")
-            f.write(file)
+        file = self.files.read(screenshot_path, format=format)
+        self.files.remove(screenshot_path)
+        return file
 
     def left_click(self):
         """
@@ -97,9 +136,16 @@ class Sandbox(SandboxBase):
         return self.pyautogui("pyautogui.rightClick()")
 
     def middle_click(self):
+        """
+        Middle click on the current mouse position.
+        """
         return self.pyautogui("pyautogui.middleClick()")
 
     def scroll(self, amount: int):
+        """
+        Scroll the mouse wheel by the given amount.
+        :param amount: The amount to scroll.
+        """
         return self.pyautogui(f"pyautogui.scroll({amount})")
 
     def move_mouse(self, x: int, y: int):
@@ -223,7 +269,7 @@ exit(0)
         on_stdout: Optional[Callable[[str], None]] = None,
         on_stderr: Optional[Callable[[str], None]] = None,
     ):
-        code_path = f"/home/user/code-{uuid.uuid4()}.py"
+        code_path = f"/tmp/code-{uuid.uuid4()}.py"
 
         code = self._wrap_pyautogui_code(pyautogui_code)
 
@@ -234,4 +280,5 @@ exit(0)
             on_stdout=on_stdout,
             on_stderr=on_stderr,
         )
+        self.files.remove(code_path)
         return out

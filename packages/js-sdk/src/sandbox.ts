@@ -3,30 +3,36 @@ import { generateRandomId } from './utils'
 // import { extractText } from './ocr'
 
 export interface SandboxOpts extends SandboxOptsBase {
-  livestream?: boolean
-  onLivestreamStart?: (url: string) => void
+  videoStream?: boolean
+  onVideoStreamStart?: (url: string) => void
 }
 
 export class Sandbox extends SandboxBase {
   protected static override readonly defaultTemplate: string = 'desktop'
-  private static readonly streamBaseUrl = 'https://e2b.dev'
+  // private static readonly streamBaseUrl = 'https://e2b.dev'
+  private static readonly streamBaseUrl = 'http://localhost:3000'
+  private videoStreamToken?: string
 
-  private static async startLivestream(sandbox: Sandbox, apiKey: string, sandboxId: string, onLivestreamStart?: (url: string) => void) {
-    // First we get the stream key
+  private static async startVideoStream(sandbox: Sandbox, apiKey: string, sandboxId: string, onVideoStreamStart?: (url: string) => void) {
+    // First we need to get the stream key
     const response = await fetch(`${this.streamBaseUrl}/api/stream/sandbox`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'X-API-Key': apiKey
       },
-      body: JSON.stringify({ sandboxId })
+      body: JSON.stringify({
+        sandboxId,
+      })
     })
 
     if (!response.ok) {
-      throw new Error(`Failed to start livestream: ${response.statusText}`)
+      throw new Error(`Failed to start video stream: ${response.statusText}`)
     }
 
-    const data = await response.json()
+    const data: { streamKey: string, token: string } = await response.json()
+    sandbox.videoStreamToken = data.token
+
     const command = 'ffmpeg -video_size 1024x768 -f x11grab -i :99 -c:v libx264 -c:a aac -g 50 -b:v 4000k -maxrate 4000k -bufsize 8000k -f flv rtmp://global-live.mux.com:5222/app/$STREAM_KEY'
     await sandbox.commands.run(command, {
       background: true,
@@ -34,8 +40,8 @@ export class Sandbox extends SandboxBase {
         STREAM_KEY: data.streamKey
       },
     })
-    const url = await sandbox.getLivestreamUrl()
-    onLivestreamStart?.(url)
+    const url = await sandbox.getVideoStreamUrl()
+    onVideoStreamStart?.(url)
   }
 
   /**
@@ -96,15 +102,36 @@ export class Sandbox extends SandboxBase {
 
     const sbx = new this({ sandboxId, ...config }) as InstanceType<S>
 
-    if (sandboxOpts?.livestream) {
-      this.startLivestream(sbx, config.apiKey!, sandboxId, sandboxOpts?.onLivestreamStart)
+    if (sandboxOpts?.videoStream) {
+      this.startVideoStream(sbx, config.apiKey!, sandboxId, sandboxOpts?.onVideoStreamStart)
     }
 
     return sbx
   }
 
-  async getLivestreamUrl() {
-    return `${Sandbox.streamBaseUrl}/stream/sandbox/${this.sandboxId}`
+  async getVideoStreamUrl() {
+    // We already have the token
+    if (this.videoStreamToken) {
+      return `${Sandbox.streamBaseUrl}/stream/sandbox/${this.sandboxId}?token=${this.videoStreamToken}`
+    }
+
+    // In cases like when a user reconnects to the sandbox, we don't have the token yet and need to get it from the server
+    const response = await fetch(`${Sandbox.streamBaseUrl}/api/stream/sandbox/${this.sandboxId}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-API-Key': this.connectionConfig.apiKey!
+      }
+    })
+
+    if (!response.ok) {
+      throw new Error(`Failed to get stream token: ${response.status} ${response.statusText}`)
+    }
+
+    const data: { token: string } = await response.json()
+    this.videoStreamToken = data.token
+
+    return `${Sandbox.streamBaseUrl}/stream/sandbox/${this.sandboxId}?token=${this.videoStreamToken}`
   }
 
   /**
@@ -130,11 +157,12 @@ export class Sandbox extends SandboxBase {
    */
   async takeScreenshot(format: 'stream'): Promise<ReadableStream<Uint8Array>>
   async takeScreenshot(format: 'bytes' | 'blob' | 'stream' = 'bytes') {
-    const path = `/home/user/screenshot-${generateRandomId()}.png`
+    const path = `/tmp/screenshot-${generateRandomId()}.png`
     await this.commands.run(`scrot --pointer ${path}`)
 
     // @ts-expect-error
     const file = await this.files.read(path, { format })
+    this.files.remove(path)
     return file
   }
 
@@ -288,13 +316,15 @@ with open("/tmp/size.txt", "w") as f:
       onStderr?: (data: string) => void
     } = {},
   ) {
-    const path = `/home/user/code-${generateRandomId()}.py`
+    const path = `/tmp/code-${generateRandomId()}.py`
     const wrappedCode = this.wrapPyautoguiCode(code)
     await this.files.write(path, wrappedCode)
     const out = await this.commands.run(`python ${path}`, {
       onStdout: opts.onStdout,
       onStderr: opts.onStderr,
     })
+
+    this.files.remove(path)
     return out
   }
 
