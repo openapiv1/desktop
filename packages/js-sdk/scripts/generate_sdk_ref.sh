@@ -9,7 +9,7 @@ set -euo pipefail
 npx typedoc
 
 PKG_VERSION="v$(node -p "require('./package.json').version")"
-ROUTES_DIR="../sdk-reference/desktop-js-sdk/${PKG_VERSION}"
+ROUTES_DIR="../../sdk-reference/desktop-js-sdk/${PKG_VERSION}"
 mkdir -p "${ROUTES_DIR}"
 
 rm -rf sdk_ref/README.md

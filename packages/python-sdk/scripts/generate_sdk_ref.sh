@@ -6,7 +6,7 @@ set -euo pipefail
 # Run it in the `python-sdk/` directory
 
 PKG_VERSION="v$(node -p "require('./package.json').version")"
-ROUTES_DIR="../sdk-reference/desktop-python-sdk/${PKG_VERSION}"
+ROUTES_DIR="../../sdk-reference/desktop-python-sdk/${PKG_VERSION}"
 mkdir -p "${ROUTES_DIR}"
 
 mkdir -p sdk_ref
