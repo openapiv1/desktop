@@ -24,7 +24,7 @@ sed -i'' -e '/^## / s/ Objects$//' "sdk_ref/${package}.mdx"
 # replace lines starting with "####" with "###"
 sed -i'' -e 's/^####/###/' "sdk_ref/${package}.mdx"
 # move to docs
-mkdir -p "${ROUTES_DIR}/main"
-mv "sdk_ref/${package}.mdx" "${ROUTES_DIR}/main/page.mdx"
+mkdir -p "${ROUTES_DIR}/sandbox"
+mv "sdk_ref/${package}.mdx" "${ROUTES_DIR}/sandbox/page.mdx"
 
 rm -rf sdk_ref
