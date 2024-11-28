@@ -47,10 +47,13 @@
     "build": "tsc --noEmit && tsup",
     "dev": "tsup --watch",
     "test": "vitest run --disable-console-intercept",
-    "example": "npx tsx example.mts"
+    "example": "npx tsx example.mts",
+    "generate-ref": "./scripts/generate_sdk_ref.sh"
   },
   "devDependencies": {
     "dotenv": "^16.4.5",
+    "typedoc": "^0.26.8",
+    "typedoc-plugin-markdown": "^4.2.7",
     "tsup": "^8.3.5",
     "tsx": "^4.19.2",
     "typescript": "^5.6.3",
