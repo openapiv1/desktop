@@ -47,7 +47,8 @@
     "build": "tsc --noEmit && tsup",
     "dev": "tsup --watch",
     "test": "vitest run --disable-console-intercept",
-    "example": "npx tsx example.mts"
+    "example": "npx tsx example.mts",
+    "generate-ref": "./scripts/generate_sdk_ref.sh"
   },
   "devDependencies": {
     "dotenv": "^16.4.5",
