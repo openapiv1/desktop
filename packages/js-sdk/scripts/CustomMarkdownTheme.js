@@ -1,4 +1,4 @@
-import { MarkdownPageEvent } from "typedoc-plugin-markdown";
+const { MarkdownPageEvent } = require("typedoc-plugin-markdown");
 
 function load(app) {
   // Listen to the render event
