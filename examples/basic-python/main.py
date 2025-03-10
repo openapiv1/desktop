@@ -7,7 +7,6 @@ from dotenv import load_dotenv
 from e2b_desktop import Sandbox
 import webview
 
-
 load_dotenv()
 
 window_frame_height = 29  # Additional px to take into the account the window border at the top
@@ -43,10 +42,7 @@ def create_window(stream_url, width, height, command_queue):
 
     webview.start()
 
-
-
-if __name__ == "__main__":
-
+def main():
     print("> Starting desktop sandbox...")
     desktop = Sandbox()
     print(" - Desktop Sandbox started, ID:", desktop.sandbox_id)
@@ -89,3 +85,7 @@ if __name__ == "__main__":
     # Kill the sandbox.
     desktop.kill()
     print(" - Desktop sandbox killed")
+
+
+if __name__ == "__main__":
+    main()
