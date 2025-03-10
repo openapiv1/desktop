@@ -2,6 +2,7 @@ import 'dotenv/config'
 import { app, BrowserWindow } from 'electron'
 import { Sandbox } from '@e2b/desktop'
 
+// Additional px to take into the account the window border at the top
 const windowFrameHeight = 29
 
 app.on('window-all-closed', () => {
