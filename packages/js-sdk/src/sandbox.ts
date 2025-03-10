@@ -303,7 +303,7 @@ export class Sandbox extends SandboxBase {
    * @returns A object with the x and y coordinates
    * @throws Error if cursor position cannot be determined
    */
-  async getCursorPosition(): Promise<CursorPosition | null> {
+  async getCursorPosition(): Promise<CursorPosition> {
     const result = await this.commands.run(
       "xdotool getmouselocation", { envs: { DISPLAY: this.display } }
     );
@@ -328,7 +328,7 @@ export class Sandbox extends SandboxBase {
    * @returns An {@link ScreenSize} object
    * @throws Error if screen size cannot be determined
    */
-  async getScreenSize(): Promise<ScreenSize | null> {
+  async getScreenSize(): Promise<ScreenSize> {
     const result = await this.commands.run(
       "xrandr", { envs: { DISPLAY: this.display } }
     );
