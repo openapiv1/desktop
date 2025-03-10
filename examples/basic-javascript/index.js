@@ -6,22 +6,18 @@ import { Sandbox } from '@e2b/desktop'
 const windowFrameHeight = 29
 
 app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
-    app.quit()
-  }
-})
-
-app.on('activate', () => {
-  if (BrowserWindow.getAllWindows().length === 0) {
-    console.log('activate event received')
-    createWindow()
-  }
+  app.quit()
 })
 
 function wait(ms) {
   return new Promise(resolve => setTimeout(resolve, ms))
 }
 
+/**
+ * @param {string} streamUrl - The URL of the stream to load
+ * @param {number} width - The width of the window
+ * @param {number} height - The height of the window
+ */
 async function createWindow(streamUrl, width, height) {
   const win = new BrowserWindow({
     title: 'E2B Desktop',
@@ -39,6 +35,11 @@ async function createWindow(streamUrl, width, height) {
   console.log(' - Stream URL loaded')
 }
 
+/**
+ * @param {import('@e2b/desktop').Sandbox} desktop - E2B desktop sandbox
+ * @param {number} width - The width of the window
+ * @param {number} height - The height of the window
+ */
 async function moveAround(desktop, width, height) {
   console.log('\n> Randomly moving mouse and right clicking 5 times...')
   for (let i = 0; i < 5; i++) {
