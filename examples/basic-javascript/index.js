@@ -68,7 +68,7 @@ async function main() {
 
   console.log('\n> Starting desktop stream...')
   await desktop.stream.start({
-    enableAuth: true
+    requireAuth: true
   })
 
   console.log('\n> Waiting 5 seconds for the stream to load...')

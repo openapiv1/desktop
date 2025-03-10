@@ -124,7 +124,7 @@ desktop = Sandbox()
 
 # Start the stream
 desktop.stream.start(
-    enable_auth=True  # Enable authentication with an auto-generated key
+    require_auth=True  # Require authentication with an auto-generated key
 )
 
 # Retrieve the authentication key
@@ -147,7 +147,7 @@ const desktop = await Sandbox.create()
 
 // Start the stream
 await desktop.stream.start({
-  enableAuth: true, // Enable authentication with an auto-generated key
+  requireAuth: true, // Require authentication with an auto-generated key
 })
 
 // Retrieve the authentication key

@@ -46,10 +46,10 @@ class _VNCServer:
     
     def get_auth_key(self) -> str:
         if not self._novnc_password:
-            raise RuntimeError('Password is not set, make sure the VNC server is started and enable_auth is set to true')
+            raise RuntimeError('Password is not set, make sure the VNC server is started and require_auth is set to true')
         return self._novnc_password
 
-    def start(self, vnc_port: Optional[int] = None, port: Optional[int] = None, enable_auth: bool = False) -> None:
+    def start(self, vnc_port: Optional[int] = None, port: Optional[int] = None, require_auth: bool = False) -> None:
         # If both servers are already running, throw an error
         if self.__vnc_handle is not None and self.__novnc_handle is not None:
             raise RuntimeError('Server is already running')
@@ -60,8 +60,8 @@ class _VNCServer:
         # Update parameters if provided
         self._vnc_port = vnc_port or self._vnc_port
         self._port = port or self._port
-        self._novnc_auth_enabled = enable_auth or self._novnc_auth_enabled
-        self._novnc_password = self._generate_password() if enable_auth else None
+        self._novnc_auth_enabled = require_auth or self._novnc_auth_enabled
+        self._novnc_password = self._generate_password() if require_auth else None
         
         # Update URL with new port
         self._url = f"https://{self.__desktop.get_host(self._port)}/vnc.html"

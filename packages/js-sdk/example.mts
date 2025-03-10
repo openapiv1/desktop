@@ -15,7 +15,7 @@ console.log("Desktop Sandbox started, ID:", desktop.sandboxId)
 console.log("Screen size:", await desktop.getScreenSize())
 
 await desktop.stream.start({
-  enableAuth: true
+  requireAuth: true
 })
 
 const authKey = await desktop.stream.getAuthKey()

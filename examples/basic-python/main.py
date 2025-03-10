@@ -51,7 +51,7 @@ def main():
     print(" - Desktop Sandbox screen size:", width, height)
 
     print("\n> Starting desktop stream...")
-    desktop.stream.start(enable_auth=True)
+    desktop.stream.start(require_auth=True)
     auth_key = desktop.stream.get_auth_key()
     stream_url = desktop.stream.get_url(auth_key=auth_key)
     print(" - Stream URL:", stream_url)

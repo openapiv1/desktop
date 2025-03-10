@@ -76,7 +76,7 @@ desktop = Sandbox()
 
 # Start the stream
 desktop.stream.start(
-    enable_auth=True  # Enable authentication with an auto-generated key
+    require_auth=True  # Enable authentication with an auto-generated key
 )
 
 # Retrieve the authentication key

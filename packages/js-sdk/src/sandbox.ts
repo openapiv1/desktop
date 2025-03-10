@@ -36,24 +36,6 @@ export interface SandboxOpts extends SandboxOptsBase {
    * @type {string}
    */
   display?: string
-
-  /**
-   * Port number for the VNC server.
-   * @type {number}
-   */
-  vncPort?: number
-
-  /**
-   * Port number for the noVNC proxy server.
-   * @type {number}
-   */
-  port?: number
-
-  /**
-   * Whether to enable authentication for noVNC connections.
-   * @type {boolean}
-   */
-  enableAuth?: boolean
 }
 
 
@@ -413,7 +395,7 @@ export class Sandbox extends SandboxBase {
 interface VNCServerOptions {
   vncPort?: number;
   port?: number;
-  enableAuth?: boolean;
+  requireAuth?: boolean;
 }
 
 // Modified VNCServer class
@@ -439,7 +421,7 @@ class VNCServer {
 
   public getAuthKey(): string {
     if (!this.password) {
-      throw new Error('Password is not set, make sure the VNC server is started and enableAuth is set to true');
+      throw new Error('Password is not set, make sure the VNC server is started and requireAuth is set to true');
     }
 
     return this.password;
@@ -500,7 +482,7 @@ class VNCServer {
 
     this.vncPort = opts.vncPort ?? this.vncPort;
     this.port = opts.port ?? this.port;
-    this.novncAuthEnabled = opts.enableAuth ?? this.novncAuthEnabled;
+    this.novncAuthEnabled = opts.requireAuth ?? this.novncAuthEnabled;
     this.password = this.novncAuthEnabled ? generateRandomString() : undefined;
     this.url = new URL(`https://${this.desktop.getHost(this.port)}/vnc.html`);
 
