@@ -11,7 +11,6 @@ import webview
 load_dotenv()
 
 window_frame_height = 29  # Additional px to take into the account the window border at the top
-window = None
 
 def move_around(desktop, width, height):
     for i in range(5):
@@ -25,8 +24,6 @@ def move_around(desktop, width, height):
         time.sleep(2)
 
 def create_window(stream_url, width, height, command_queue):
-    global window
-
     # We create a separate thread to check the queue for the 'close' command that can be sent from the main thread.
     def check_queue():
         while True:
