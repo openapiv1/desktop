@@ -64,8 +64,8 @@ if __name__ == "__main__":
 
     print("\n> Randomly moving mouse and right clicking 5 times...")
     for i in range(5):
-        x = random.randint(0, 1024)
-        y = random.randint(0, 768)
+        x = random.randint(0, width)
+        y = random.randint(0, height)
         desktop.move_mouse(x, y)
         print(" - Moved mouse to", x, y)
         desktop.right_click()
