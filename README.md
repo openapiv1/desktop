@@ -6,9 +6,17 @@ Each sandbox is isolated from the others and can be customized with any dependen
 
 ![Desktop Sandbox](readme-assets/screenshot.png)
 
-### Example app using Computer Use with Anthropic's Claude
+## Examples
 
-Check out the [example open-source app](https://github.com/e2b-dev/secure-computer-use) in a separate repository.
+### Open computer use
+
+Check out the [example open-source app](https://github.com/e2b-dev/open-computer-use) in a separate repository.
+
+### Basic SDK usage examples
+
+Check out the examples directory for more examples on how to use the SDK:
+- [Python](./examples/basic-python)
+- [JavaScript](./examples/basic-javascript)
 
 ## 🚀 Getting started
 
