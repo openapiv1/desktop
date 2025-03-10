@@ -421,7 +421,7 @@ class VNCServer {
 
   public getAuthKey(): string {
     if (!this.password) {
-      throw new Error('Password is not set, make sure the VNC server is started and requireAuth is set to true');
+      throw new Error('Unable to retrieve stream auth key, check if requireAuth is enabled');
     }
 
     return this.password;

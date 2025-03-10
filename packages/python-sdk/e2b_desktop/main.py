@@ -46,7 +46,7 @@ class _VNCServer:
     
     def get_auth_key(self) -> str:
         if not self._novnc_password:
-            raise RuntimeError('Password is not set, make sure the VNC server is started and require_auth is set to true')
+            raise RuntimeError('Unable to retrieve stream auth key, check if require_auth is enabled')
         return self._novnc_password
 
     def start(self, vnc_port: Optional[int] = None, port: Optional[int] = None, require_auth: bool = False) -> None:
