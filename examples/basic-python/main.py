@@ -13,6 +13,17 @@ load_dotenv()
 window_frame_height = 29  # Additional px to take into the account the window border at the top
 window = None
 
+def move_around(desktop, width, height):
+    for i in range(5):
+        x = random.randint(0, width)
+        y = random.randint(0, height)
+        desktop.move_mouse(x, y)
+        print(" - Moved mouse to", x, y)
+        desktop.right_click()
+        print(" - Right clicked", i)
+        print(" - Waiting 2 seconds...\n")
+        time.sleep(2)
+
 def create_window(stream_url, width, height, command_queue):
     global window
 
@@ -63,16 +74,7 @@ if __name__ == "__main__":
         time.sleep(1)
 
     print("\n> Randomly moving mouse and right clicking 5 times...")
-    for i in range(5):
-        x = random.randint(0, width)
-        y = random.randint(0, height)
-        desktop.move_mouse(x, y)
-        print(" - Moved mouse to", x, y)
-        desktop.right_click()
-        print(" - Right clicked", i)
-        print(" - Waiting 2 seconds...\n")
-        time.sleep(2)
-
+    move_around(desktop, width, height)
 
     input("\nPress enter to kill the sandbox and close the window...")
 
