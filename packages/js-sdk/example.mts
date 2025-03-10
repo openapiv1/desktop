@@ -15,10 +15,11 @@ console.log("Desktop Sandbox started, ID:", desktop.sandboxId)
 console.log("Screen size:", await desktop.getScreenSize())
 
 await desktop.stream.start({
-  enableAuth: true
+  requireAuth: true
 })
 
-console.log("Stream URL:", desktop.stream.getUrl())
+const authKey = await desktop.stream.getAuthKey()
+console.log("Stream URL:", desktop.stream.getUrl({ authKey }))
 
 await new Promise(resolve => setTimeout(resolve, 5000));
 

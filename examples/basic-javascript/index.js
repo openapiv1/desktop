@@ -67,7 +67,9 @@ async function main() {
   console.log(' - Desktop sandbox screen size:', size)
 
   console.log('\n> Starting desktop stream...')
-  await desktop.stream.start()
+  await desktop.stream.start({
+    requireAuth: true
+  })
 
   console.log('\n> Waiting 5 seconds for the stream to load...')
   for (let i = 5; i > 0; i--) {
@@ -75,7 +77,8 @@ async function main() {
     await wait(1000)
   }
 
-  const url = desktop.stream.getUrl()
+  const authKey = await desktop.stream.getAuthKey()
+  const url = desktop.stream.getUrl({ authKey })
   console.log(' - Stream URL:', url)
 
   console.log('\n> Creating browser window...')
