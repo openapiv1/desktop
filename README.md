@@ -124,11 +124,14 @@ desktop = Sandbox()
 
 # Start the stream
 desktop.stream.start(
-    enable_auth=True  # Enable authentication with an auto-generated password that will be injected in the stream URL
+    enable_auth=True  # Enable authentication with an auto-generated key
 )
 
+# Retrieve the authentication key
+auth_key = desktop.stream.get_auth_key()
+
 # Get stream URL
-url = desktop.stream.get_url()
+url = desktop.stream.get_url(auth_key=auth_key)
 print(url)
 
 # Stop the stream
@@ -144,11 +147,14 @@ const desktop = await Sandbox.create()
 
 // Start the stream
 await desktop.stream.start({
-  enableAuth: true, // Enable authentication with an auto-generated password that will be injected in the stream UR
+  enableAuth: true, // Enable authentication with an auto-generated key
 })
 
+// Retrieve the authentication key
+const authKey = await desktop.stream.getAuthKey()
+
 // Get stream URL
-const url = desktop.stream.getUrl()
+const url = desktop.stream.getUrl({ authKey })
 console.log(url)
 
 // Stop the stream

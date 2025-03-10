@@ -52,7 +52,8 @@ def main():
 
     print("\n> Starting desktop stream...")
     desktop.stream.start(enable_auth=True)
-    stream_url = desktop.stream.get_url()
+    auth_key = desktop.stream.get_auth_key()
+    stream_url = desktop.stream.get_url(auth_key=auth_key)
     print(" - Stream URL:", stream_url)
 
     # The webview needs to run on the main thread. That would mean that it would block the program execution.

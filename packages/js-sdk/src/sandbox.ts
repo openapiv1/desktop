@@ -424,19 +424,25 @@ class VNCServer {
   private url: URL | null = null;
   private vncHandle: CommandHandle | null = null;
   private novncHandle: CommandHandle | null = null;
-  private readonly password: string;
+  private password: string | undefined;
   private vncCommand: string = "";
   private readonly novncCommand: string;
   private readonly desktop: Sandbox;
 
   constructor(desktop: Sandbox) {
     this.desktop = desktop;
-    this.password = generateRandomString();
-
     this.novncCommand = (
       `cd /opt/noVNC/utils && ./novnc_proxy --vnc localhost:${this.vncPort} ` +
       `--listen ${this.port} --web /opt/noVNC > /tmp/novnc.log 2>&1`
     );
+  }
+
+  public getAuthKey(): string {
+    if (!this.password) {
+      throw new Error('Password is not set, make sure the VNC server is started and enableAuth is set to true');
+    }
+
+    return this.password;
   }
 
   /**
@@ -465,9 +471,10 @@ class VNCServer {
   /**
    * Get the URL to connect to the VNC server.
    * @param autoConnect - Whether to automatically connect to the server after opening the URL.
+   * @param authKey - The password to use to connect to the server.
    * @returns The URL to connect to the VNC server.
    */
-  public getUrl(autoConnect: boolean = true): string {
+  public getUrl({ autoConnect = true, authKey }: { autoConnect?: boolean, authKey?: string } = {}): string {
     if (this.url === null) {
       throw new Error('Server is not running');
     }
@@ -476,8 +483,8 @@ class VNCServer {
     if (autoConnect) {
       url.searchParams.set('autoconnect', 'true');
     }
-    if (this.novncAuthEnabled) {
-      url.searchParams.set("password", this.password);
+    if (authKey) {
+      url.searchParams.set("password", authKey);
     }
     return url.toString()
   }
@@ -494,6 +501,7 @@ class VNCServer {
     this.vncPort = opts.vncPort ?? this.vncPort;
     this.port = opts.port ?? this.port;
     this.novncAuthEnabled = opts.enableAuth ?? this.novncAuthEnabled;
+    this.password = this.novncAuthEnabled ? generateRandomString() : undefined;
     this.url = new URL(`https://${this.desktop.getHost(this.port)}/vnc.html`);
 
     // Stop both servers in case one of them is running.

@@ -15,10 +15,9 @@ class _VNCServer:
         self._vnc_port = 5900
         self._port = 6080
         self._novnc_auth_enabled = False
+        self._novnc_password = None
 
         self._url = f"https://{desktop.get_host(self._port)}/vnc.html"
-
-        self._novnc_password = self._generate_password()
 
         self.__desktop = desktop
 
@@ -35,18 +34,19 @@ class _VNCServer:
         characters = string.ascii_letters + string.digits
         return ''.join(secrets.choice(characters) for _ in range(length))
 
-    def get_url(self, auto_connect: bool = True) -> str:
+    def get_url(self, auto_connect: bool = True, auth_key: Optional[str] = None) -> str:
         params = []
         if auto_connect:
             params.append("autoconnect=true")
-        if self._novnc_auth_enabled:
-            params.append(f"password={self._novnc_password}")
+        if auth_key:
+            params.append(f"password={auth_key}")
         if params:
             return f"{self._url}?{'&'.join(params)}"
         return self._url
     
-    @property
-    def password(self) -> str:
+    def get_auth_key(self) -> str:
+        if not self._novnc_password:
+            raise RuntimeError('Password is not set, make sure the VNC server is started and enable_auth is set to true')
         return self._novnc_password
 
     def start(self, vnc_port: Optional[int] = None, port: Optional[int] = None, enable_auth: bool = False) -> None:
@@ -61,6 +61,7 @@ class _VNCServer:
         self._vnc_port = vnc_port or self._vnc_port
         self._port = port or self._port
         self._novnc_auth_enabled = enable_auth or self._novnc_auth_enabled
+        self._novnc_password = self._generate_password() if enable_auth else None
         
         # Update URL with new port
         self._url = f"https://{self.__desktop.get_host(self._port)}/vnc.html"
