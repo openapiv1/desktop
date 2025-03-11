@@ -106,6 +106,8 @@ await desktop.middleClick()
 await desktop.scroll(10) // Scroll by the amount. Positive for up, negative for down.
 await desktop.moveMouse(100, 200) // Move to x, y coordinates
 await desktop.drag([100, 100], [200, 200]) // Drag using the mouse
+await desktop.mousePress("left") // Press the mouse button
+await desktop.mouseRelease("left") // Release the mouse button
 ```
 
 ### Keyboard control
