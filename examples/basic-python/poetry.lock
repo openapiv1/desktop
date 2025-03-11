@@ -185,13 +185,13 @@ typing-extensions = ">=4.1.0"
 
 [[package]]
 name = "e2b-desktop"
-version = "1.1.1"
+version = "1.2.0"
 description = "E2B Desktop Sandbox - Deskstop sandbox in cloud powered by E2B"
 optional = false
 python-versions = "<4.0,>=3.9"
 files = [
-    {file = "e2b_desktop-1.1.1-py3-none-any.whl", hash = "sha256:9b04cbb81b91f141f773531e8d7f87705440b1a7bca0a0c31d2daa335ad16027"},
-    {file = "e2b_desktop-1.1.1.tar.gz", hash = "sha256:e19af5473bebd751d8cf8549d1839198f1b86a10f704b8346bf3da6ec30df3fd"},
+    {file = "e2b_desktop-1.2.0-py3-none-any.whl", hash = "sha256:239669e15d0ee630fa26d7b257f5f8e82f7dd8575e50fa47dbac7f7bf7b8d8b1"},
+    {file = "e2b_desktop-1.2.0.tar.gz", hash = "sha256:5100e40f83ef96d856af3e0516b53568030e6a472337f2f5aee65ddc6f8c5062"},
 ]
 
 [package.dependencies]
@@ -680,4 +680,4 @@ zstd = ["zstandard (>=0.18.0)"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "3d98fd6f6a7aa8bd243ee2763a1ffd10fe2d4a560c51d00086ed3dcc6ed49f9a"
+content-hash = "07d1c609d6b5f94ac722ef8b9f76fc063edad64a758e8c94108ff3398dc04ef0"
