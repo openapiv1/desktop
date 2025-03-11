@@ -118,7 +118,7 @@ desktop.write("Fast typing!", chunk_size=50, delay_in_ms=25)  # Faster typing
 desktop.press("enter")
 desktop.press("space")
 desktop.press("backspace")
-desktop.press("ctrl+c")
+desktop.press(["ctrl", "c"])
 ```
 
 ### Screenshot

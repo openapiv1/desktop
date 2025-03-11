@@ -347,13 +347,33 @@ class Sandbox(SandboxBase):
                 f"xdotool type --delay {delay_in_ms} {quote_string(chunk)}", envs={"DISPLAY": self._display}
             )
 
-    def press(self, key: str):
+    def press(self, key: str | list[str]):
         """
         Press a key.
 
         :param key: The key to press (e.g. "enter", "space", "backspace", etc.).
         """
+        if isinstance(key, list):
+            key = "+".join(key)
+
         self.commands.run(f"xdotool key {key}", envs={"DISPLAY": self._display})
+
+    def drag(self, fr: tuple[int, int], to: tuple[int, int]):
+        """
+        Drag the mouse from the given position to the given position.
+
+        :param from: The starting position.
+        :param to: The ending position.
+        """
+        self.commands.run(f"xdotool mousemove {fr[0]} {fr[1]} && xdotool mousedown 1 && xdotool mousemove {to[0]} {to[1]} && xdotool mouseup 1", envs={"DISPLAY": self._display})
+
+    def wait(self, ms: int):
+        """
+        Wait for the given amount of time.
+
+        :param ms: The amount of time to wait in milliseconds.
+        """
+        self.commands.run(f"sleep {ms / 1000}", envs={"DISPLAY": self._display})
 
     def open(self, file_or_url: str):
         """

@@ -208,7 +208,7 @@ desktop.write("Fast typing!", chunk_size=50, delay_in_ms=25)  # Faster typing
 desktop.press("enter")
 desktop.press("space")
 desktop.press("backspace")
-desktop.press("ctrl+c")
+desktop.press(["ctrl", "c"])
 ```
 
 **JavaScript**
@@ -226,7 +226,7 @@ await desktop.write('Fast typing!', { chunkSize: 50, delayInMs: 25 }) // Faster 
 await desktop.press('enter')
 await desktop.press('space')
 await desktop.press('backspace')
-await desktop.press('ctrl+c') // Copy
+await desktop.press(['ctrl', 'c']) // Copy
 ```
 
 ### Screenshot
