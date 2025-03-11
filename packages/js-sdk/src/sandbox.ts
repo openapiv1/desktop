@@ -13,6 +13,12 @@ interface ScreenSize {
   height: number;
 }
 
+const MOUSE_BUTTONS = {
+  left: 1,
+  right: 3,
+  middle: 2
+}
+
 /**
  * Configuration options for the Sandbox environment.
  * @interface SandboxOpts
@@ -281,6 +287,20 @@ export class Sandbox extends SandboxBase {
   }
 
   /**
+   * Press the mouse button.
+   */
+  async mousePress(button: 'left' | 'right' | 'middle' = 'left'): Promise<void> {
+    await this.commands.run(`xdotool mousedown ${MOUSE_BUTTONS[button]}`, { envs: { DISPLAY: this.display } });
+  }
+
+  /**
+   * Release the mouse button.
+   */
+  async mouseRelease(button: 'left' | 'right' | 'middle' = 'left'): Promise<void> {
+    await this.commands.run(`xdotool mouseup ${MOUSE_BUTTONS[button]}`, { envs: { DISPLAY: this.display } });
+  }
+
+  /**
    * Get the current cursor position.
    * @returns A object with the x and y coordinates
    * @throws Error if cursor position cannot be determined
@@ -387,10 +407,10 @@ export class Sandbox extends SandboxBase {
    * @param to - The ending position.
    */
   async drag([x1, y1]: [number, number], [x2, y2]: [number, number]): Promise<void> {
-    await this.commands.run(
-      `xdotool mousemove ${x1} ${y1} && xdotool mousedown 1 && xdotool mousemove ${x2} ${y2} && xdotool mouseup 1`,
-      { envs: { DISPLAY: this.display } }
-    );
+    await this.moveMouse(x1, y1);
+    await this.mousePress();
+    await this.moveMouse(x2, y2);
+    await this.mouseRelease();
   }
 
   /**

@@ -6,6 +6,11 @@ from uuid import uuid4
 
 from e2b import Sandbox as SandboxBase, CommandHandle, CommandResult, TimeoutException, CommandExitException
 
+MOUSE_BUTTONS = {
+    "left": 1,
+    "right": 3,
+    "middle": 2
+}
 
 class _VNCServer:
     def __init__(self, desktop: "Sandbox") -> None:
@@ -288,6 +293,18 @@ class Sandbox(SandboxBase):
         """
         self.commands.run(f"xdotool mousemove --sync {x} {y}", envs={"DISPLAY": self._display})
 
+    def mouse_press(self, button: Literal["left", "right", "middle"] = "left"):
+        """
+        Press the mouse button.
+        """
+        self.commands.run(f"xdotool mousedown {MOUSE_BUTTONS[button]}", envs={"DISPLAY": self._display})
+
+    def mouse_release(self, button: Literal["left", "right", "middle"] = "left"):
+        """
+        Release the mouse button.
+        """
+        self.commands.run(f"xdotool mouseup {MOUSE_BUTTONS[button]}", envs={"DISPLAY": self._display})
+        
     def get_cursor_position(self) -> tuple[int, int]:
         """
         Get the current cursor position.
@@ -365,7 +382,10 @@ class Sandbox(SandboxBase):
         :param from: The starting position.
         :param to: The ending position.
         """
-        self.commands.run(f"xdotool mousemove {fr[0]} {fr[1]} && xdotool mousedown 1 && xdotool mousemove {to[0]} {to[1]} && xdotool mouseup 1", envs={"DISPLAY": self._display})
+        self.move_mouse(fr[0], fr[1])
+        self.mouse_press()
+        self.move_mouse(to[0], to[1])
+        self.mouse_release()
 
     def wait(self, ms: int):
         """
