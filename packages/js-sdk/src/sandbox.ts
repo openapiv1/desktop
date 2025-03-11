@@ -373,12 +373,32 @@ export class Sandbox extends SandboxBase {
 
   /**
    * Press a key.
-   * @param key - The key to press (e.g. "enter", "space", "backspace", etc.).
+   * @param key - The key to press (e.g. "enter", "space", "backspace", etc.). Can be a single key or an array of keys.
    */
-  async press(key: string): Promise<void> {
+  async press(key: string | string[]): Promise<void> {
     await this.commands.run(
-      `xdotool key ${key}`, { envs: { DISPLAY: this.display } }
+      `xdotool key ${Array.isArray(key) ? key.join('+') : key}`, { envs: { DISPLAY: this.display } }
     );
+  }
+
+  /**
+   * Drag the mouse from the given position to the given position.
+   * @param from - The starting position.
+   * @param to - The ending position.
+   */
+  async drag([x1, y1]: [number, number], [x2, y2]: [number, number]): Promise<void> {
+    await this.commands.run(
+      `xdotool mousemove ${x1} ${y1} && xdotool mousedown 1 && xdotool mousemove ${x2} ${y2} && xdotool mouseup 1`,
+      { envs: { DISPLAY: this.display } }
+    );
+  }
+
+  /**
+   * Wait for the given amount of time.
+   * @param ms - The amount of time to wait in milliseconds.
+   */
+  async wait(ms: number): Promise<void> {
+    await this.commands.run(`sleep ${ms / 1000}`, { envs: { DISPLAY: this.display } });
   }
 
   /**
