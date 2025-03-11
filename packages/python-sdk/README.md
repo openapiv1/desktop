@@ -6,9 +6,17 @@ Each sandbox is isolated from the others and can be customized with any dependen
 
 ![Desktop Sandbox](../../readme-assets/screenshot.png)
 
-### Example app using Computer Use with Anthropic's Claude
+## Examples
 
-Check out the [example open-source app](https://github.com/e2b-dev/secure-computer-use) in a separate repository.
+### Open computer use
+
+Check out the [example open-source app](https://github.com/e2b-dev/open-computer-use) in a separate repository.
+
+### Basic SDK usage examples
+
+Check out the examples directory for more examples on how to use the SDK:
+- [Python](./examples/basic-python)
+- [JavaScript](./examples/basic-javascript)
 
 ## 🚀 Getting started
 
@@ -68,11 +76,14 @@ desktop = Sandbox()
 
 # Start the stream
 desktop.stream.start(
-    enable_auth=True  # Enable authentication with an auto-generated password that will be injected in the stream URL
+    require_auth=True  # Enable authentication with an auto-generated key
 )
 
+# Retrieve the authentication key
+auth_key = desktop.stream.get_auth_key()
+
 # Get stream URL
-url = desktop.stream.get_url()
+url = desktop.stream.get_url(auth_key=auth_key)
 print(url)
 
 # Stop the stream
