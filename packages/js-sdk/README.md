@@ -105,6 +105,7 @@ await desktop.rightClick()
 await desktop.middleClick()
 await desktop.scroll(10) // Scroll by the amount. Positive for up, negative for down.
 await desktop.moveMouse(100, 200) // Move to x, y coordinates
+await desktop.drag([100, 100], [200, 200]) // Drag using the mouse
 ```
 
 ### Keyboard control
@@ -122,7 +123,7 @@ await desktop.write('Fast typing!', { chunkSize: 50, delayInMs: 25 }) // Faster 
 await desktop.press('enter')
 await desktop.press('space')
 await desktop.press('backspace')
-await desktop.press('ctrl+c') // Copy
+await desktop.press(['ctrl', 'c']) // Key combination
 ```
 
 ### Screenshot
@@ -158,6 +159,15 @@ const desktop = await Sandbox.create()
 // Run any bash command
 const out = await desktop.commands.run('ls -la /home/user')
 console.log(out)
+```
+
+### Wait
+
+```javascript
+import { Sandbox } from '@e2b/desktop'
+
+const desktop = await Sandbox.create()
+await desktop.wait(1000) // Wait for 1 second
 ```
 
 ## Under the hood

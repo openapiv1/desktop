@@ -102,6 +102,7 @@ desktop.right_click()
 desktop.middle_click()
 desktop.scroll(10) # Scroll by the amount. Positive for up, negative for down.
 desktop.mouse_move(100, 200) # Move to x, y coordinates
+desktop.drag((100, 100), (200, 200)) # Drag using the mouse
 ```
 
 ### Keyboard control
@@ -118,7 +119,7 @@ desktop.write("Fast typing!", chunk_size=50, delay_in_ms=25)  # Faster typing
 desktop.press("enter")
 desktop.press("space")
 desktop.press("backspace")
-desktop.press(["ctrl", "c"])
+desktop.press(["ctrl", "c"]) # Key combination
 ```
 
 ### Screenshot
@@ -154,6 +155,15 @@ desktop = Sandbox()
 # Run any bash command
 out = desktop.commands.run("ls -la /home/user")
 print(out)
+```
+
+### Wait
+
+```python
+from e2b_desktop import Sandbox
+desktop = Sandbox()
+
+desktop.wait(1000) # Wait for 1 second
 ```
 
 ## Under the hood

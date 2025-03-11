@@ -386,9 +386,9 @@ export class Sandbox extends SandboxBase {
    * @param from - The starting position.
    * @param to - The ending position.
    */
-  async drag(from: CursorPosition, to: CursorPosition): Promise<void> {
+  async drag([x1, y1]: [number, number], [x2, y2]: [number, number]): Promise<void> {
     await this.commands.run(
-      `xdotool mousemove ${from.x} ${from.y} && xdotool mousedown 1 && xdotool mousemove ${to.x} ${to.y} && xdotool mouseup 1`,
+      `xdotool mousemove ${x1} ${y1} && xdotool mousedown 1 && xdotool mousemove ${x2} ${y2} && xdotool mouseup 1`,
       { envs: { DISPLAY: this.display } }
     );
   }
