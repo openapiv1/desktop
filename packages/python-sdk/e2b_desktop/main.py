@@ -12,6 +12,61 @@ MOUSE_BUTTONS = {
     "middle": 2
 }
 
+KEYS = {
+  "enter": "Return",
+  "space": "space",
+  "backspace": "BackSpace",
+  "tab": "Tab",
+  "escape": "Escape",
+  "shift": "Shift_L",
+  "shift_left": "Shift_L",
+  "shift_right": "Shift_R",
+  "control": "Control_L",
+  "control_left": "Control_L",
+  "control_right": "Control_R",
+  "alt": "Alt_L",
+  "alt_left": "Alt_L",
+  "alt_right": "Alt_R",
+  "super": "Super_L",
+  "super_left": "Super_L",
+  "super_right": "Super_R",
+  "caps_lock": "Caps_Lock",
+  "num_lock": "Num_Lock",
+  "scroll_lock": "Scroll_Lock",
+  "insert": "Insert",
+  "delete": "Delete",
+  "home": "Home",
+  "end": "End",
+  "page_up": "Page_Up",
+  "page_down": "Page_Down",
+  "up": "Up",
+  "down": "Down",
+  "left": "Left",
+  "right": "Right",
+  "f1": "F1",
+  "f2": "F2",
+  "f3": "F3",
+  "f4": "F4",
+  "f5": "F5",
+  "f6": "F6",
+  "f7": "F7",
+  "f8": "F8",
+  "f9": "F9",
+  "f10": "F10",
+  "f11": "F11",
+  "f12": "F12",
+  "print_screen": "Print",
+  "pause": "Pause",
+  "menu": "Menu",
+  "meta": "Meta_L"
+}
+
+def map_key(key: str) -> str:
+    lower_key = key.lower()
+    if lower_key in KEYS:
+        return KEYS[lower_key]
+    return key
+
 class _VNCServer:
     def __init__(self, desktop: "Sandbox") -> None:
         self.__vnc_handle: CommandHandle | None = None
@@ -371,7 +426,9 @@ class Sandbox(SandboxBase):
         :param key: The key to press (e.g. "enter", "space", "backspace", etc.).
         """
         if isinstance(key, list):
-            key = "+".join(key)
+            key = "+".join(map_key(k) for k in key)
+        else:
+            key = map_key(key)
 
         self.commands.run(f"xdotool key {key}", envs={"DISPLAY": self._display})
 
