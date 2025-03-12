@@ -118,7 +118,7 @@ desktop.write("Hello, world!")  # Default: chunk_size=25, delay_in_ms=75
 desktop.write("Fast typing!", chunk_size=50, delay_in_ms=25)  # Faster typing
 
 # Press keys
-desktop.press("return")
+desktop.press("enter")
 desktop.press("space")
 desktop.press("backspace")
 desktop.press(["ctrl", "c"]) # Key combination

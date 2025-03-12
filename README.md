@@ -211,7 +211,7 @@ desktop.write("Hello, world!")  # Default: chunk_size=25, delay_in_ms=75
 desktop.write("Fast typing!", chunk_size=50, delay_in_ms=25)  # Faster typing
 
 # Press keys
-desktop.press("return")
+desktop.press("enter")
 desktop.press("space")
 desktop.press("backspace")
 desktop.press(["ctrl", "c"]) # Key combination
@@ -229,7 +229,7 @@ await desktop.write('Hello, world!')
 await desktop.write('Fast typing!', { chunkSize: 50, delayInMs: 25 }) // Faster typing
 
 // Press keys
-await desktop.press('return')
+await desktop.press('enter')
 await desktop.press('space')
 await desktop.press('backspace')
 await desktop.press(['ctrl', 'c']) // Key combination
