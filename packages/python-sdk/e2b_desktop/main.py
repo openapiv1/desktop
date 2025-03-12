@@ -61,6 +61,12 @@ KEYS = {
   "meta": "Meta_L"
 }
 
+def map_key(key: str) -> str:
+    lower_key = key.lower()
+    if lower_key in KEYS:
+        return KEYS[lower_key]
+    return key
+
 class _VNCServer:
     def __init__(self, desktop: "Sandbox") -> None:
         self.__vnc_handle: CommandHandle | None = None
@@ -420,12 +426,9 @@ class Sandbox(SandboxBase):
         :param key: The key to press (e.g. "enter", "space", "backspace", etc.).
         """
         if isinstance(key, list):
-            key = "+".join(key)
-
-        lower_key = key.lower()
-
-        if lower_key in KEYS:
-            key = KEYS[lower_key]
+            key = "+".join(map_key(k) for k in key)
+        else:
+            key = map_key(key)
 
         self.commands.run(f"xdotool key {key}", envs={"DISPLAY": self._display})
 

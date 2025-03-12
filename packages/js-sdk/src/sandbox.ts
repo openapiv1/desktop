@@ -68,6 +68,14 @@ const KEYS = {
   "meta": "Meta_L"
 }
 
+function mapKey(key: string): string {
+  const lowerKey = key.toLowerCase()
+  if (lowerKey in KEYS) {
+    return KEYS[lowerKey as keyof typeof KEYS]
+  }
+  return key
+}
+
 /**
  * Configuration options for the Sandbox environment.
  * @interface SandboxOpts
@@ -446,12 +454,9 @@ export class Sandbox extends SandboxBase {
    */
   async press(key: string | string[]): Promise<void> {
     if (Array.isArray(key)) {
-      key = key.join('+')
-    }
-
-    const lowerKey = key.toLowerCase()
-    if (lowerKey in KEYS) {
-      key = KEYS[lowerKey as keyof typeof KEYS]
+      key = key.map(mapKey).join('+')
+    } else {
+      key = mapKey(key)
     }
 
     await this.commands.run(
