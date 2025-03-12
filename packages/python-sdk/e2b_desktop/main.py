@@ -368,12 +368,12 @@ class Sandbox(SandboxBase):
         """
         Press a key.
 
-        :param key: The key to press (e.g. "enter", "space", "backspace", etc.).
+        :param key: The key to press (e.g. "return", "space", "backspace", etc.).
         """
         if isinstance(key, list):
             key = "+".join(key)
 
-        self.commands.run(f"xdotool key {key}", envs={"DISPLAY": self._display})
+        self.commands.run(f"xdotool key {key.lower()}", envs={"DISPLAY": self._display})
 
     def drag(self, fr: tuple[int, int], to: tuple[int, int]):
         """

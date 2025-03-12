@@ -393,11 +393,15 @@ export class Sandbox extends SandboxBase {
 
   /**
    * Press a key.
-   * @param key - The key to press (e.g. "enter", "space", "backspace", etc.). Can be a single key or an array of keys.
+   * @param key - The key to press (e.g. "return", "space", "backspace", etc.). Can be a single key or an array of keys.
    */
   async press(key: string | string[]): Promise<void> {
+    if (Array.isArray(key)) {
+      key = key.join('+')
+    }
+
     await this.commands.run(
-      `xdotool key ${Array.isArray(key) ? key.join('+') : key}`, { envs: { DISPLAY: this.display } }
+      `xdotool key ${key.toLowerCase()}`, { envs: { DISPLAY: this.display } }
     );
   }
 

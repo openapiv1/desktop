@@ -174,7 +174,7 @@ desktop.left_click()
 desktop.right_click()
 desktop.middle_click()
 desktop.scroll(10) # Scroll by the amount. Positive for up, negative for down.
-desktop.mouse_move(100, 200) # Move to x, y coordinates
+desktop.move_mouse(100, 200) # Move to x, y coordinates
 desktop.drag((100, 100), (200, 200)) # Drag using the mouse
 desktop.mouse_press("left") # Press the mouse button
 desktop.mouse_release("left") # Release the mouse button
@@ -211,7 +211,7 @@ desktop.write("Hello, world!")  # Default: chunk_size=25, delay_in_ms=75
 desktop.write("Fast typing!", chunk_size=50, delay_in_ms=25)  # Faster typing
 
 # Press keys
-desktop.press("enter")
+desktop.press("return")
 desktop.press("space")
 desktop.press("backspace")
 desktop.press(["ctrl", "c"]) # Key combination
@@ -229,7 +229,7 @@ await desktop.write('Hello, world!')
 await desktop.write('Fast typing!', { chunkSize: 50, delayInMs: 25 }) // Faster typing
 
 // Press keys
-await desktop.press('enter')
+await desktop.press('return')
 await desktop.press('space')
 await desktop.press('backspace')
 await desktop.press(['ctrl', 'c']) // Key combination
