@@ -102,6 +102,9 @@ RUN apt-get update && \
     unzip && \
     apt-get clean
 
+# Select the default terminal to xfce4-terminal.wrapper
+RUN sudo ln -sf /usr/bin/xfce4-terminal.wrapper /etc/alternatives/x-terminal-emulator
+
 # Install numpy which is used by websockify: https://github.com/novnc/websockify/issues/337
 RUN pip install numpy
 
