@@ -8,15 +8,19 @@ Each sandbox is isolated from the others and can be customized with any dependen
 
 ## Examples
 
-### Open computer use
+**Basic SDK Examples**
 
-Check out the [example open-source app](https://github.com/e2b-dev/open-computer-use) in a separate repository.
+- Check out the examples directory for more examples on how to use the SDK:
+   - [Python](./examples/basic-python)
+   - [JavaScript](./examples/basic-javascript)
 
-### Basic SDK usage examples
+**[Open Computer Ese](https://github.com/e2b-dev/open-computer-use)**
+   
+- Computer use made with 100% open source LLMs.
 
-Check out the examples directory for more examples on how to use the SDK:
-- [Python](./examples/basic-python)
-- [JavaScript](./examples/basic-javascript)
+**[🏄 Surf](https://github.com/e2b-dev/surf)**
+
+-  OpenAI Computer Use Agent using E2B's Desktop Sandbox. Runs as a Next.js app.
 
 ## 🚀 Getting started
 
