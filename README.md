@@ -14,7 +14,7 @@ Each sandbox is isolated from the others and can be customized with any dependen
    - [Python](./examples/basic-python)
    - [JavaScript](./examples/basic-javascript)
 
-**[Open Computer Ese](https://github.com/e2b-dev/open-computer-use)**
+**[Open Computer Use](https://github.com/e2b-dev/open-computer-use)**
    
 - Computer use made with 100% open source LLMs.
 
