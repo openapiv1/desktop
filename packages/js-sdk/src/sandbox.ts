@@ -20,36 +20,25 @@ const MOUSE_BUTTONS = {
 }
 
 const KEYS = {
-  "enter": "Return",
-  "space": "space",
-  "backspace": "BackSpace",
-  "tab": "Tab",
-  "escape": "Escape",
-  "shift": "Shift_L",
-  "shift_left": "Shift_L",
-  "shift_right": "Shift_R",
-  "control": "Control_L",
-  "control_left": "Control_L",
-  "control_right": "Control_R",
   "alt": "Alt_L",
   "alt_left": "Alt_L",
   "alt_right": "Alt_R",
-  "super": "Super_L",
-  "super_left": "Super_L",
-  "super_right": "Super_R",
+  "backspace": "BackSpace",
+  "break": "Pause",
   "caps_lock": "Caps_Lock",
-  "num_lock": "Num_Lock",
-  "scroll_lock": "Scroll_Lock",
-  "insert": "Insert",
+  "cmd": "Super_L",
+  "command": "Super_L",
+  "control": "Control_L",
+  "control_left": "Control_L",
+  "control_right": "Control_R",
+  "ctrl": "Control_L",
+  "del": "Delete",
   "delete": "Delete",
-  "home": "Home",
-  "end": "End",
-  "page_up": "Page_Up",
-  "page_down": "Page_Down",
-  "up": "Up",
   "down": "Down",
-  "left": "Left",
-  "right": "Right",
+  "end": "End",
+  "enter": "Return",
+  "esc": "Escape",
+  "escape": "Escape",
   "f1": "F1",
   "f2": "F2",
   "f3": "F3",
@@ -62,10 +51,29 @@ const KEYS = {
   "f10": "F10",
   "f11": "F11",
   "f12": "F12",
-  "print_screen": "Print",
-  "pause": "Pause",
+  "home": "Home",
+  "insert": "Insert",
+  "left": "Left",
   "menu": "Menu",
-  "meta": "Meta_L"
+  "meta": "Meta_L",
+  "num_lock": "Num_Lock",
+  "page_down": "Page_Down",
+  "page_up": "Page_Up",
+  "pause": "Pause",
+  "print": "Print",
+  "right": "Right",
+  "scroll_lock": "Scroll_Lock",
+  "shift": "Shift_L",
+  "shift_left": "Shift_L",
+  "shift_right": "Shift_R",
+  "space": "space",
+  "super": "Super_L",
+  "super_left": "Super_L",
+  "super_right": "Super_R",
+  "tab": "Tab",
+  "up": "Up",
+  "win": "Super_L",
+  "windows": "Super_L"
 }
 
 function mapKey(key: string): string {
@@ -73,7 +81,7 @@ function mapKey(key: string): string {
   if (lowerKey in KEYS) {
     return KEYS[lowerKey as keyof typeof KEYS]
   }
-  return key
+  return lowerKey
 }
 
 /**
