@@ -73,7 +73,7 @@ def map_key(key: str) -> str:
     lower_key = key.lower()
     if lower_key in KEYS:
         return KEYS[lower_key]
-    return key
+    return lower_key
 
 class _VNCServer:
     def __init__(self, desktop: "Sandbox") -> None:
