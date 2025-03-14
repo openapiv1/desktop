@@ -40,6 +40,9 @@ RUN apt update -y \
     && add-apt-repository -y "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" \
     && apt update -y \
     && apt install -y code
+# Remove the "trust directory popup" prompt for vscode
+RUN mkdir -p /home/user/.config/Code/User
+RUN echo "{\"security.allowHttp\": true, \"security.workspace.trust.startupPrompt\": \"never\", \"security.workspace.trust.enabled\": false, \"security.workspace.trust.banner\": \"never\", \"security.workspace.trust.emptyWindow\": false}" > /home/user/.config/Code/User/settings.json
 
 ENV PIP_DEFAULT_TIMEOUT=100 \
     PIP_DISABLE_PIP_VERSION_CHECK=1 \
@@ -101,6 +104,9 @@ RUN apt-get update && \
     pcmanfm \
     unzip && \
     apt-get clean
+
+# Select the default terminal to xfce4-terminal.wrapper
+RUN sudo ln -sf /usr/bin/xfce4-terminal.wrapper /etc/alternatives/x-terminal-emulator
 
 # Install numpy which is used by websockify: https://github.com/novnc/websockify/issues/337
 RUN pip install numpy
