@@ -467,8 +467,6 @@ export class Sandbox extends SandboxBase {
       key = mapKey(key)
     }
 
-    console.log(key)
-
     await this.commands.run(
       `xdotool key ${key}`, { envs: { DISPLAY: this.display } }
     );
