@@ -98,8 +98,11 @@ desktop = Sandbox()
 
 desktop.double_click()
 desktop.left_click()
+desktop.left_click(x=100, y=200)
 desktop.right_click()
+desktop.right_click(x=100, y=200)
 desktop.middle_click()
+desktop.middle_click(x=100, y=200)
 desktop.scroll(10) # Scroll by the amount. Positive for up, negative for down.
 desktop.move_mouse(100, 200) # Move to x, y coordinates
 desktop.drag((100, 100), (200, 200)) # Drag using the mouse
