@@ -101,8 +101,11 @@ const desktop = await Sandbox.create()
 
 await desktop.doubleClick()
 await desktop.leftClick()
+await desktop.leftClick(100, 200)
 await desktop.rightClick()
+await desktop.rightClick(100, 200)
 await desktop.middleClick()
+await desktop.middleClick(100, 200)
 await desktop.scroll(10) // Scroll by the amount. Positive for up, negative for down.
 await desktop.moveMouse(100, 200) // Move to x, y coordinates
 await desktop.drag([100, 100], [200, 200]) // Drag using the mouse

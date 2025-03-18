@@ -301,30 +301,46 @@ export class Sandbox extends SandboxBase {
   }
 
   /**
-   * Left click on the current mouse position.
+   * Left click on the mouse position.
    */
-  async leftClick(): Promise<void> {
+  async leftClick(x?: number, y?: number): Promise<void> {
+    if (x && y) {
+      await this.moveMouse(x, y);
+    }
+
     await this.commands.run("xdotool click 1", { envs: { DISPLAY: this.display } });
   }
 
   /**
-   * Double left click on the current mouse position.
+   * Double left click on the mouse position.
    */
-  async doubleClick(): Promise<void> {
+  async doubleClick(x?: number, y?: number): Promise<void> {
+    if (x && y) {
+      await this.moveMouse(x, y);
+    }
+
     await this.commands.run("xdotool click --repeat 2 1", { envs: { DISPLAY: this.display } });
   }
 
   /**
-   * Right click on the current mouse position.
+   * Right click on the mouse position.
    */
-  async rightClick(): Promise<void> {
+  async rightClick(x?: number, y?: number): Promise<void> {
+    if (x && y) {
+      await this.moveMouse(x, y);
+    }
+
     await this.commands.run("xdotool click 3", { envs: { DISPLAY: this.display } });
   }
 
   /**
-   * Middle click on the current mouse position.
+   * Middle click on the mouse position.
    */
-  async middleClick(): Promise<void> {
+  async middleClick(x?: number, y?: number): Promise<void> {
+    if (x && y) {
+      await this.moveMouse(x, y);
+    }
+
     await this.commands.run("xdotool click 2", { envs: { DISPLAY: this.display } });
   }
 

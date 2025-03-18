@@ -311,28 +311,38 @@ class Sandbox(SandboxBase):
         self.files.remove(screenshot_path)
         return file
 
-    def left_click(self):
+    def left_click(self, x: Optional[int] = None, y: Optional[int] = None):
         """
-        Left click on the current mouse position.
+        Left click on the mouse position.
         """
+        if x and y:
+            self.move_mouse(x, y)
         self.commands.run("xdotool click 1", envs={"DISPLAY": self._display})
 
-    def double_click(self):
+    def double_click(self, x: Optional[int] = None, y: Optional[int] = None):
         """
-        Double left click on the current mouse position.
+        Double left click on the mouse position.
         """
+        if x and y:
+            self.move_mouse(x, y)
         self.commands.run("xdotool click --repeat 2 1", envs={"DISPLAY": self._display})
 
-    def right_click(self):
+    def right_click(self, x: Optional[int] = None, y: Optional[int] = None):
+        if (x is None) != (y is None):
+            raise ValueError("Both x and y must be provided together")
         """
-        Right click on the current mouse position.
+        Right click on the mouse position.
         """
+        if x and y:
+            self.move_mouse(x, y)
         self.commands.run("xdotool click 3", envs={"DISPLAY": self._display})
 
-    def middle_click(self):
+    def middle_click(self, x: Optional[int] = None, y: Optional[int] = None):
         """
-        Middle click on the current mouse position.
+        Middle click on the mouse position.
         """
+        if x and y:
+            self.move_mouse(x, y)
         self.commands.run("xdotool click 2", envs={"DISPLAY": self._display})
 
     def scroll(self, direction: Literal["up", "down"] = "down", amount: int = 1):
