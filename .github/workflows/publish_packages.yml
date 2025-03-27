@@ -1,4 +1,4 @@
-name: Test Decktop SDK Packages
+name: Test Desktop SDK Packages
 
 on:
   workflow_call:
