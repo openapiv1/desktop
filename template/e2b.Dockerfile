@@ -49,7 +49,7 @@ RUN \
 # ~ Make your changes to this template BELOW this line ~
 
 # Set the default terminal
-RUN sudo ln -sf /usr/bin/xfce4-terminal.wrapper /etc/alternatives/x-terminal-emulator
+RUN ln -sf /usr/bin/xfce4-terminal.wrapper /etc/alternatives/x-terminal-emulator
 
 # Install standard apps
 RUN apt-get install -y x11-apps \
@@ -78,3 +78,5 @@ COPY ./settings.json /home/user/.config/Code/User/settings.json
 
 # Copy desktop background for XFCE
 COPY ./wallpaper.png /usr/share/backgrounds/xfce/wallpaper.png
+RUN mkdir -p /home/user/.config/xfce4/xfconf/xfce-perchannel-xml/
+COPY ./xfce4-desktop.xml /home/user/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-desktop.xml
