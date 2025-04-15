@@ -77,7 +77,6 @@ def map_key(key: str) -> str:
 
 class _VNCServer:
     def __init__(self, desktop: "Sandbox") -> None:
-        self.__vnc_handle: CommandHandle | None = None
         self.__novnc_handle: CommandHandle | None = None
         
         self._vnc_port = 5900
@@ -93,6 +92,13 @@ class _VNCServer:
         return self.__desktop._wait_and_verify(
             f'netstat -tuln | grep ":{port} "', lambda r: r.stdout.strip() != ""
         )
+    
+    def _check_vnc_running(self) -> bool:
+        try:
+            self.__desktop.commands.run('pgrep -x x11vnc')
+            return True
+        except CommandExitException:
+            return False
     
     @staticmethod
     def _generate_password(length: int = 16) -> str:
@@ -121,14 +127,11 @@ class _VNCServer:
             raise RuntimeError('Unable to retrieve stream auth key, check if require_auth is enabled')
         return self._novnc_password
 
-    def start(self, vnc_port: Optional[int] = None, port: Optional[int] = None, require_auth: bool = False) -> None:
-        # If both servers are already running, throw an error
-        if self.__vnc_handle is not None and self.__novnc_handle is not None:
-            raise RuntimeError('Server is already running')
+    def start(self, vnc_port: Optional[int] = None, port: Optional[int] = None, require_auth: bool = False, window_id: Optional[str] = None) -> None:
+        # If stream is already running, throw an error
+        if self._check_vnc_running():
+            raise RuntimeError('Stream is already running')
 
-        # Stop servers in case one of them is running
-        self.stop()
-        
         # Update parameters if provided
         self._vnc_port = vnc_port or self._vnc_port
         self._port = port or self._port
@@ -146,27 +149,26 @@ class _VNCServer:
             pwd_flag = "-usepw"
 
         vnc_command = (
-            f"x11vnc -display {self.__desktop._display} -forever -wait 50 -shared "
+            f"x11vnc -bg -display {self.__desktop._display} -forever -wait 50 -shared "
             f"-rfbport {self._vnc_port} {pwd_flag} 2>/tmp/x11vnc_stderr.log"
         )
+        if window_id:
+            vnc_command += f"-id {window_id}"
         
         novnc_command = (
             f"cd /opt/noVNC/utils && ./novnc_proxy --vnc localhost:{self._vnc_port} "
             f"--listen {self._port} --web /opt/noVNC > /tmp/novnc.log 2>&1"
         )
 
-        self.__vnc_handle = self.__desktop.commands.run(vnc_command, background=True)
-        if not self._wait_for_port(self._vnc_port):
-            raise TimeoutException("Could not start VNC server")
+        self.__desktop.commands.run(vnc_command)
 
         self.__novnc_handle = self.__desktop.commands.run(novnc_command, background=True)
         if not self._wait_for_port(self._port):
             raise TimeoutException("Could not start noVNC server")
 
     def stop(self) -> None:
-        if self.__vnc_handle:
-            self.__vnc_handle.kill()
-            self.__vnc_handle = None
+        if self._check_vnc_running():
+            self.__desktop.commands.run('pkill x11vnc')
         
         if self.__novnc_handle:
             self.__novnc_handle.kill()
@@ -476,3 +478,21 @@ class Sandbox(SandboxBase):
         :param file_or_url: The file or URL to open.
         """
         self.commands.run(f"xdg-open {file_or_url}", background=True, envs={"DISPLAY": self._display})
+
+    def get_current_window_id(self) -> str:
+        """
+        Get the current window ID.
+        """
+        return self.commands.run("xdotool getwindowfocus", envs={"DISPLAY": self._display}).stdout.strip()
+
+    def get_application_windows(self, application: str) -> list[str]:
+        """
+        Get the window IDs of all windows for the given application.
+        """
+        return self.commands.run(f"xdotool search --onlyvisible --class {application}", envs={"DISPLAY": self._display}).stdout.strip().split("\n")
+
+    def get_window_title(self, window_id: str) -> str:
+        """
+        Get the title of the window with the given ID.
+        """
+        return self.commands.run(f"xdotool getwindowname {window_id}", envs={"DISPLAY": self._display}).stdout.strip()
