@@ -39,15 +39,31 @@ pip install e2b-desktop
 ```python
 from e2b_desktop import Sandbox
 
-# Basic initialization
+# Create a new desktop sandbox
 desktop = Sandbox()
 
-# With custom configuration
-desktop = Sandbox(
-    display=":0",  # Custom display (defaults to :0)
-    resolution=(1920, 1080),  # Custom resolution
-    dpi=96,  # Custom DPI
+# Launch an application
+desktop.launch('google-chrome')  # or vscode, firefox, etc.
+
+# Wait 10s for the application to open
+desktop.wait(10000)
+
+# Stream the application's window
+# Note: There can be only one stream at a time
+# You need to stop the current stream before streaming another application
+desktop.stream.start(
+    window_id=desktop.get_current_window_id(), # if not provided the whole desktop will be streamed
+    require_auth=True
 )
+
+# Get the stream auth key
+auth_key = desktop.stream.get_auth_key()
+
+# Print the stream URL
+print('Stream URL:', desktop.stream.get_url(auth_key=auth_key))
+
+# Kill the sandbox after the tasks are finished
+# desktop.kill()
 ```
 
 ## Features
