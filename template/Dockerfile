@@ -3,7 +3,7 @@
 # This Dockerfile contains the commands to create a computer use sandbox on E2B.
 # If you want to make your own template based on this one, make your changes
 
-FROM ubuntu:22.04
+FROM ubuntu:25.10
 
 # Environment variables:
 
